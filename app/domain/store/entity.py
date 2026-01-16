@@ -1,16 +1,14 @@
 import uuid
-from datetime import datetime
 
-from sqlalchemy import String, DateTime, Enum
+from sqlalchemy import Enum, String
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.sql import func
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.repositories.base import Base
+from app.database.base import TimestampMixin
 from .enum import Status
 
 
-class Store(Base):
+class Store(TimestampMixin):
     __tablename__ = "stores"
 
     id: Mapped[uuid.UUID] = mapped_column(
@@ -28,16 +26,4 @@ class Store(Base):
         Enum(Status, name="status"),
         nullable=False,
         default=Status.CREATED,
-    )
-
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True),
-        server_default=func.now(),
-        nullable=False,
-    )
-
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True),
-        server_default=func.now(),
-        nullable=False,
     )
