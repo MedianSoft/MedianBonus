@@ -13,4 +13,4 @@ pre-commit:
     
     mypy:
       glob: "*.py"
-      run: ~/.local/bin/uv run mypy {staged_files}
+      run: ~/.local/bin/uv run mypy app
