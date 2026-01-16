@@ -4,7 +4,6 @@ from app.factories.business import get_business_service
 from app.schemas.business import BusinessCreate, BusinessRead
 from app.services.business import BusinessService
 
-
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
