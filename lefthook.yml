@@ -1,35 +1,27 @@
 pre-commit:
   parallel: false
   commands:
-    # Сначала форматируем все файлы
     black:
-      glob: "*.py"
-      run: ~/.local/bin/uv run black .
+      run: ~/.local/bin/uv run black . && git add -u
       stage_fixed: true
       skip:
         - merge
         - rebase
 
-    # Ruff format (если используете вместо black)
     ruff-format:
-      glob: "*.py"
-      run: ~/.local/bin/uv run ruff format .
+      run: ~/.local/bin/uv run ruff format . && git add -u
       stage_fixed: true
       skip:
         - merge
         - rebase
 
-    # Ruff проверки на всем проекте
     ruff-check:
-      glob: "*.py"
       run: ~/.local/bin/uv run ruff check .
       skip:
         - merge
         - rebase
 
-    # Mypy проверка всего проекта
     mypy:
-      glob: "*.py"
       run: ~/.local/bin/uv run mypy .
       skip:
         - merge
