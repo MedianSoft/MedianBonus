@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  commands:
+    black:
+      glob: "*.py"
+      run: ~/.local/bin/uv run black {staged_files} && git add {staged_files}
+      stage_fixed: true
+    
+    ruff-check:
+      glob: "*.py"
+      run: ~/.local/bin/uv run ruff check --fix {staged_files} && git add {staged_files}
+      stage_fixed: true
+    
+    mypy:
+      glob: "*.py"
+      run: ~/.local/bin/uv run mypy {staged_files}

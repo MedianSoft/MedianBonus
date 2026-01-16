@@ -26,7 +26,7 @@ class BusinessService:
             raise ValueError("Email already registered")
 
         account = Business(
-            email=data.email,
-            password_hash=hash_password(data.password),
+            email=str(data.email),
+            password_hash=hash_password(data.password_hash),
         )
         return await self.repo.add(account)
