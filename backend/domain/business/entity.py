@@ -16,10 +16,14 @@ class Business(TimestampMixin):
         default=uuid.uuid4,
     )
 
+    name: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False,
+    )
+
     email: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
-        unique=True,
         index=True,
     )
 

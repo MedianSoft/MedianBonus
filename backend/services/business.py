@@ -1,8 +1,13 @@
-from pydantic import EmailStr
-
 from backend.domain.business import Business, BusinessRepository, Status
 from backend.factories.business import get_business_repository
-from backend.schemas.business import BusinessCreate, BusinessDelete
+from backend.schemas.business import (
+    BusinessCreateRequest,
+    BusinessDeleteRequest,
+    BusinessGetByEmailRequest,
+    BusinessGetByIDRequest,
+    BusinessListResponse,
+    BusinessResponse,
+)
 from backend.security import hash_password
 
 
@@ -10,38 +15,52 @@ class BusinessService:
     def __init__(self, repository: BusinessRepository = get_business_repository()):
         self.repository = repository
 
-    async def get_by_email(
-        self,
-        email: EmailStr,
-    ) -> Business | None:
-        return await self.repository.get_by_email(str(email))
-
-    async def get_all(
-        self,
-    ) -> list[Business | None]:
-        return await self.repository.get_all()
-
     async def create(
         self,
-        data: BusinessCreate,
-    ) -> Business:
+        data: BusinessCreateRequest,
+    ) -> BusinessResponse:
         existing = await self.repository.get_by_email(str(data.email))
         if existing:
             raise ValueError("Email already registered")
-
         account = Business(
+            name=data.name,
             email=str(data.email),
             password_hash=hash_password(data.password_hash),
         )
-        return await self.repository.create(account)
+        result = await self.repository.create(account)
+        return BusinessResponse.model_validate(result)
 
     async def delete(
         self,
-        data: BusinessDelete,
-    ) -> Business:
+        data: BusinessDeleteRequest,
+    ) -> BusinessResponse | None:
         existing = await self.repository.get_by_email(str(data.email))
         if not existing:
             raise ValueError("Business doesn't exist")
-
         existing.status = Status.SUSPENDED
-        return await self.repository.update(existing)
+        result = await self.repository.update(existing)
+        return BusinessResponse.model_validate(result)
+
+    async def get_by_email(
+        self,
+        data: BusinessGetByEmailRequest,
+    ) -> BusinessResponse | None:
+        result = await self.repository.get_by_email(str(data.email))
+        return BusinessResponse.model_validate(result)
+
+    async def get_by_id(
+        self,
+        data: BusinessGetByIDRequest,
+    ) -> BusinessResponse | None:
+        result = await self.repository.get_by_id(data.id)
+        return BusinessResponse.model_validate(result)
+
+    async def get_all(
+        self,
+    ) -> BusinessListResponse:
+        result = await self.repository.get_all()
+        return BusinessListResponse(
+            businesses=[
+                BusinessResponse.model_validate(business) for business in result
+            ]
+        )
