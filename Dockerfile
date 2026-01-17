@@ -1,6 +1,6 @@
 FROM python:3.13-slim
 
-WORKDIR /app
+WORKDIR /backend
 
 COPY pyproject.toml uv.lock ./
 RUN pip install --upgrade pip
@@ -9,4 +9,4 @@ RUN uv pip install --system --no-cache -r pyproject.toml
 
 COPY . .
 
-CMD ["python", "-m", "app"]
+CMD ["python", "-m", "backend"]

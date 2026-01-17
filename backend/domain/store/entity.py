@@ -3,12 +3,12 @@ import uuid
 from sqlalchemy import Enum, String, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.database.base import TimestampMixin
+from backend.database.base import TimestampMixin
 from .enum import Status
 
 
-class Business(TimestampMixin):
-    __tablename__ = "businesses"
+class Store(TimestampMixin):
+    __tablename__ = "stores"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
@@ -16,14 +16,7 @@ class Business(TimestampMixin):
         default=uuid.uuid4,
     )
 
-    email: Mapped[str] = mapped_column(
-        String(255),
-        nullable=False,
-        unique=True,
-        index=True,
-    )
-
-    password_hash: Mapped[str] = mapped_column(
+    name: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
     )
@@ -31,5 +24,5 @@ class Business(TimestampMixin):
     status: Mapped[Status] = mapped_column(
         Enum(Status, name="status"),
         nullable=False,
-        default=Status.ACTIVATED,
+        default=Status.CREATED,
     )

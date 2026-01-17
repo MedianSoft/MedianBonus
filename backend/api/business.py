@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, status
 
-from app.factories.business import get_business_service
-from app.schemas.business import BusinessCreate
-from app.services.business import BusinessService
+from backend.factories.business import get_business_service
+from backend.schemas.business import BusinessCreate
+from backend.services.business import BusinessService
 
 
 router = APIRouter(tags=["business"])
@@ -16,4 +16,4 @@ async def register_business(
     data: BusinessCreate,
     service: BusinessService = Depends(get_business_service),
 ):
-    return await service.register(data)
+    return await service.create(data)

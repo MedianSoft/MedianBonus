@@ -11,16 +11,16 @@ services:
     ports:
       - "5433:5432"
 
-  app:
+  backend:
     build: .
-    container_name: app
+    container_name: backend
     restart: unless-stopped
     env_file:
       - .env
     depends_on:
       - db
     volumes:
-      - .:/app
+      - .:/backend
     ports:
       - "8000:8000"
 

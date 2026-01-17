@@ -1,11 +1,21 @@
 from pydantic import BaseModel, EmailStr
 
-from app.domain.business import Status
+from backend.domain.business import Status
 
 
 class BusinessCreate(BaseModel):
     email: EmailStr
     password_hash: str
+
+    class Config:
+        from_attributes = True
+
+
+class BusinessDelete(BaseModel):
+    email: EmailStr
+
+    class Config:
+        from_attributes = True
 
 
 class BusinessRead(BaseModel):

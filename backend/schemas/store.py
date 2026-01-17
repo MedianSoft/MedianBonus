@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from app.domain.store import Status
+from backend.domain.store import Status
 
 
 class StoreCreate(BaseModel):
