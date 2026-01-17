@@ -1,5 +1,3 @@
-import uuid
-
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -25,10 +23,6 @@ class CustomerRepository:
         result = await self.session.execute(
             select(Customer).where(Customer.phone == phone)
         )
-        return result.scalar_one_or_none()
-
-    async def get_by_id(self, id: uuid.UUID) -> Customer | None:
-        result = await self.session.execute(select(Customer).where(Customer.id == id))
         return result.scalar_one_or_none()
 
     async def get_all(self) -> list[Customer | None]:

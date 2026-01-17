@@ -3,13 +3,13 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 
-from backend.api import business_router, customer_router
+from backend.api import business_router, customer_router, store_router
 from backend.database.bootstrap import drop_database, init_database
 from backend.settings import app_settings
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI):  # noqa
     await init_database()
     yield
     if app_settings.env == "dev":
@@ -17,7 +17,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
-routers = [business_router, customer_router]
+routers = [business_router, customer_router, store_router]
 for router in routers:
     app.include_router(router)
 

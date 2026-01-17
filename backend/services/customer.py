@@ -3,7 +3,6 @@ from backend.domain.customer.repository import CustomerRepository
 from backend.factories.customer import get_customer_repository
 from backend.schemas.customer import (
     CustomerCreateRequest,
-    CustomerGetByIDRequest,
     CustomerGetByPhoneRequest,
     CustomerListResponse,
     CustomerResponse,
@@ -26,10 +25,6 @@ class CustomerService:
 
     async def get_by_phone(self, data: CustomerGetByPhoneRequest) -> CustomerResponse:
         result = await self.repository.get_by_phone(data.phone)
-        return CustomerResponse.model_validate(result)
-
-    async def get_by_id(self, data: CustomerGetByIDRequest) -> CustomerResponse:
-        result = await self.repository.get_by_id(data.id)
         return CustomerResponse.model_validate(result)
 
     async def get_all(self) -> CustomerListResponse:
