@@ -29,3 +29,4 @@ median-bonus/
 │   └── tsconfig.json
 │
 └── docker-compose.yml      # Оркестрация контейнеров
+
