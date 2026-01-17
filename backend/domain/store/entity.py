@@ -4,7 +4,7 @@ from sqlalchemy import Enum, ForeignKey, String, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.database.base import TimestampMixin
-from .enum import Status
+from .enum import StoreStatus
 
 
 class Store(TimestampMixin):
@@ -23,8 +23,8 @@ class Store(TimestampMixin):
         nullable=False,
     )
 
-    status: Mapped[Status] = mapped_column(
-        Enum(Status, name="status"),
+    status: Mapped[StoreStatus] = mapped_column(
+        Enum(StoreStatus, name="store_status"),
         nullable=False,
-        default=Status.ACTIVATED,
+        default=StoreStatus.ACTIVATED,
     )

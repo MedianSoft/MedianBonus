@@ -1,7 +1,7 @@
 import enum
 
 
-class Status(enum.Enum):
+class ProductStatus(enum.Enum):
     AVAILABLE = "available"
     NOT_AVAILABLE = "not_available"
     REMOVED = "removed"

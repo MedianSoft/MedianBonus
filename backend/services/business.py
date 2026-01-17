@@ -1,4 +1,4 @@
-from backend.domain.business import Business, BusinessRepository, Status
+from backend.domain.business import Business, BusinessRepository, BusinessStatus
 from backend.factories.business import get_business_repository
 from backend.schemas.business import (
     BusinessCreateRequest,
@@ -35,7 +35,7 @@ class BusinessService:
         if not existing:
             raise NotFoundError("Business")
 
-        existing.status = Status.SUSPENDED
+        existing.status = BusinessStatus.SUSPENDED
         result = await self.repository.update(existing)
 
         return BusinessResponse.model_validate(result)

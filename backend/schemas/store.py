@@ -2,7 +2,7 @@ import uuid
 
 from pydantic import BaseModel
 
-from backend.domain.store import Status
+from backend.domain.store import StoreStatus
 
 
 class StoreCreateRequest(BaseModel):
@@ -19,7 +19,7 @@ class StoreUpdateRequest(BaseModel):
     name: str
     new_name: str
     business_id: uuid.UUID
-    status: Status
+    status: StoreStatus
 
 
 class StoreGetByNameRequest(BaseModel):
@@ -35,7 +35,7 @@ class StoreResponse(BaseModel):
     id: uuid.UUID
     business_id: uuid.UUID
     name: str
-    status: Status
+    status: StoreStatus
 
     class Config:
         from_attributes = True

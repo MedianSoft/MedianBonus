@@ -8,16 +8,16 @@ from backend.domain.bonus import (
 )
 
 # noinspection PyUnresolvedReferences
-from backend.domain.business import Business
+from backend.domain.business import Business, BusinessStatus
 
 # noinspection PyUnresolvedReferences
 from backend.domain.customer import Customer, CustomerGift, CustomerPoints
 
 # noinspection PyUnresolvedReferences
-from backend.domain.product import Product
+from backend.domain.product import Product, ProductStatus
 
 # noinspection PyUnresolvedReferences
-from backend.domain.store import Store
+from backend.domain.store import Store, StoreStatus
 from .base import Base
 from .session import engine
 

@@ -4,7 +4,7 @@ from sqlalchemy import Enum, String, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.database.base import TimestampMixin
-from .enum import Status
+from .enum import BusinessStatus
 
 
 class Business(TimestampMixin):
@@ -31,8 +31,8 @@ class Business(TimestampMixin):
         nullable=False,
     )
 
-    status: Mapped[Status] = mapped_column(
-        Enum(Status, name="status"),
+    status: Mapped[BusinessStatus] = mapped_column(
+        Enum(BusinessStatus, name="business_status"),
         nullable=False,
-        default=Status.ACTIVATED,
+        default=BusinessStatus.ACTIVATED,
     )

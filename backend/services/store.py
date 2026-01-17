@@ -1,4 +1,4 @@
-from backend.domain.store import Status, Store, StoreRepository
+from backend.domain.store import StoreStatus, Store, StoreRepository
 from backend.factories.store import get_store_repository
 from backend.schemas.store import (
     StoreCreateRequest,
@@ -35,7 +35,7 @@ class StoreService:
         if not existing:
             raise NotFoundError("Store")
 
-        existing.status = Status.SUSPENDED
+        existing.status = StoreStatus.SUSPENDED
         result = await self.repository.update(existing)
 
         return StoreResponse.model_validate(result)

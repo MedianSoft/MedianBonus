@@ -1,6 +1,6 @@
 import enum
 
 
-class Status(enum.Enum):
-    ACTIVATED = "activated"  # работает
-    SUSPENDED = "suspended"  # остановлен
+class BusinessStatus(enum.Enum):
+    ACTIVATED = "activated"
+    SUSPENDED = "suspended"

@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.domain.store import Status, Store
+from backend.domain.store import StoreStatus, Store
 
 
 class StoreRepository:
@@ -27,7 +27,7 @@ class StoreRepository:
                 and_(
                     Store.business_id == business_id,
                     Store.name == name,
-                    Store.status != Status.SUSPENDED,
+                    Store.status != StoreStatus.SUSPENDED,
                 )
             )
         )
@@ -38,7 +38,7 @@ class StoreRepository:
             select(Store).where(
                 and_(
                     Store.business_id == business_id,
-                    Store.status != Status.SUSPENDED,
+                    Store.status != StoreStatus.SUSPENDED,
                 )
             )
         )

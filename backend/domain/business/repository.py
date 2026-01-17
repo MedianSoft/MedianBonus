@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.domain.business import Business, Status
+from backend.domain.business import Business, BusinessStatus
 
 
 class BusinessRepository:
@@ -26,7 +26,7 @@ class BusinessRepository:
             select(Business).where(
                 and_(
                     Business.email == email,
-                    Business.status != Status.SUSPENDED,
+                    Business.status != BusinessStatus.SUSPENDED,
                 )
             )
         )
@@ -37,7 +37,7 @@ class BusinessRepository:
             select(Business).where(
                 and_(
                     Business.id == id,
-                    Business.status != Status.SUSPENDED,
+                    Business.status != BusinessStatus.SUSPENDED,
                 )
             )
         )
@@ -45,6 +45,6 @@ class BusinessRepository:
 
     async def get_all(self) -> list[Business | None]:
         result = await self.session.execute(
-            select(Business).where(Business.status != Status.SUSPENDED)
+            select(Business).where(Business.status != BusinessStatus.SUSPENDED)
         )
         return list(result.scalars().all())

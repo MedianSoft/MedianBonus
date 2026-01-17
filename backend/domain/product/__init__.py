@@ -1,5 +1,6 @@
 from .entity import Product
-from .enum import Status
+from .enum import ProductStatus
+from .repository import ProductRepository
 
 
-__all__ = ["Product", "Status"]
+__all__ = ["Product", "ProductStatus", "ProductRepository"]

@@ -1,10 +1,10 @@
 import uuid
 
-from sqlalchemy import ForeignKey, String, UUID
+from sqlalchemy import Enum, ForeignKey, String, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.database.base import TimestampMixin
-from backend.domain.product.enum import Category, Status
+from backend.domain.product.enum import Category, ProductStatus
 
 
 class Product(TimestampMixin):
@@ -27,4 +27,8 @@ class Product(TimestampMixin):
 
     price: Mapped[float] = mapped_column(nullable=False)
 
-    status: Mapped[Status] = mapped_column(default=Status.AVAILABLE)
+    status: Mapped[ProductStatus] = mapped_column(
+        Enum(ProductStatus, name="product_status"),
+        nullable=False,
+        default=ProductStatus.AVAILABLE,
+    )

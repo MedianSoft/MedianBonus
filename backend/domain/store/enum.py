@@ -1,7 +1,7 @@
 import enum
 
 
-class Status(enum.Enum):
+class StoreStatus(enum.Enum):
     ACTIVATED = "activated"
     STOPPED = "stopped"
     SUSPENDED = "suspended"

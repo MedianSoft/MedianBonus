@@ -2,7 +2,7 @@ import uuid
 
 from pydantic import BaseModel, EmailStr
 
-from backend.domain.business import Status
+from backend.domain.business import BusinessStatus
 
 
 class BusinessCreateRequest(BaseModel):
@@ -30,7 +30,7 @@ class BusinessResponse(BaseModel):
     id: uuid.UUID
     email: EmailStr
     name: str
-    status: Status
+    status: BusinessStatus
 
     class Config:
         from_attributes = True
