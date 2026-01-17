@@ -24,7 +24,6 @@ class Business(TimestampMixin):
     email: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
-        index=True,
     )
 
     password_hash: Mapped[str] = mapped_column(
