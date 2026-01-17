@@ -37,14 +37,6 @@ services:
       - ./frontend/package-lock.json:/app/package-lock.json:ro
       - ./frontend/tsconfig.json:/app/tsconfig.json:ro
       - /app/node_modules
-    environment:
-      - NODE_ENV=development
-      - REACT_APP_APP_NAME=Code Battle
-      - REACT_APP_AUTH_DELAY_MS=600
-      - PORT=3000
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true
-      - FAST_REFRESH=true
     stdin_open: true
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
