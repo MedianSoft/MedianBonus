@@ -15,25 +15,19 @@ class BusinessService:
     def __init__(self, repository: BusinessRepository = get_business_repository()):
         self.repository = repository
 
-    async def create(
-        self,
-        data: BusinessCreateRequest,
-    ) -> BusinessResponse:
+    async def create(self, data: BusinessCreateRequest) -> BusinessResponse:
         existing = await self.repository.get_by_email(str(data.email))
         if existing:
             raise ValueError("Email already registered")
-        account = Business(
+        business = Business(
             name=data.name,
             email=str(data.email),
-            password_hash=hash_password(data.password_hash),
+            password_hash=hash_password(data.password),
         )
-        result = await self.repository.create(account)
+        result = await self.repository.create(business)
         return BusinessResponse.model_validate(result)
 
-    async def delete(
-        self,
-        data: BusinessDeleteRequest,
-    ) -> BusinessResponse | None:
+    async def delete(self, data: BusinessDeleteRequest) -> BusinessResponse | None:
         existing = await self.repository.get_by_email(str(data.email))
         if not existing:
             raise ValueError("Business doesn't exist")
@@ -42,22 +36,16 @@ class BusinessService:
         return BusinessResponse.model_validate(result)
 
     async def get_by_email(
-        self,
-        data: BusinessGetByEmailRequest,
+        self, data: BusinessGetByEmailRequest
     ) -> BusinessResponse | None:
         result = await self.repository.get_by_email(str(data.email))
         return BusinessResponse.model_validate(result)
 
-    async def get_by_id(
-        self,
-        data: BusinessGetByIDRequest,
-    ) -> BusinessResponse | None:
+    async def get_by_id(self, data: BusinessGetByIDRequest) -> BusinessResponse | None:
         result = await self.repository.get_by_id(data.id)
         return BusinessResponse.model_validate(result)
 
-    async def get_all(
-        self,
-    ) -> BusinessListResponse:
+    async def get_all(self) -> BusinessListResponse:
         result = await self.repository.get_all()
         return BusinessListResponse(
             businesses=[

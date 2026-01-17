@@ -32,7 +32,11 @@ class BonusProgram(TimestampMixin):
 class DiscountRule(TimestampMixin):
     __tablename__ = "discount_rules"
 
-    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+    )
 
     program_id: Mapped[UUID] = mapped_column(
         ForeignKey("bonus_programs.id", ondelete="CASCADE")
@@ -50,7 +54,11 @@ class DiscountRule(TimestampMixin):
 class GiftRule(TimestampMixin):
     __tablename__ = "gift_rules"
 
-    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+    )
 
     program_id: Mapped[UUID] = mapped_column(
         ForeignKey("bonus_programs.id", ondelete="CASCADE")
@@ -68,7 +76,11 @@ class GiftRule(TimestampMixin):
 class PointsRule(TimestampMixin):
     __tablename__ = "points_rules"
 
-    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+    )
 
     program_id: Mapped[UUID] = mapped_column(
         ForeignKey("bonus_programs.id", ondelete="CASCADE")

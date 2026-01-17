@@ -8,7 +8,10 @@ from backend.domain.business import Status
 class BusinessCreateRequest(BaseModel):
     email: EmailStr
     name: str
-    password_hash: str
+    password: str
+
+    class Config:
+        from_attributes = True
 
 
 class BusinessDeleteRequest(BaseModel):

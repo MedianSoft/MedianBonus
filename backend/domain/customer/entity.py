@@ -9,7 +9,11 @@ from backend.database.base import TimestampMixin
 class Customer(TimestampMixin):
     __tablename__ = "customers"
 
-    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+    )
 
     name: Mapped[str] = mapped_column(String(63))
 
@@ -17,11 +21,17 @@ class Customer(TimestampMixin):
 
 
 class CustomerGift(TimestampMixin):
-    __tablename__ = "customer_product"
+    __tablename__ = "customer_gift"
 
-    customer_id: Mapped[UUID] = mapped_column(ForeignKey("customers.id"))
+    customer_id: Mapped[UUID] = mapped_column(
+        ForeignKey("customers.id"),
+        primary_key=True,
+    )
 
-    product_id: Mapped[UUID] = mapped_column(ForeignKey("products.id"))
+    product_id: Mapped[UUID] = mapped_column(
+        ForeignKey("products.id"),
+        primary_key=True,
+    )
 
     count: Mapped[int] = mapped_column(default=0)
 
