@@ -18,8 +18,8 @@ class BonusProgram(TimestampMixin):
     )
 
     store_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("stores.id", ondelete="CASCADE"),
         UUID(as_uuid=True),
+        ForeignKey("stores.id", ondelete="CASCADE"),
         nullable=False,
     )
 
@@ -41,14 +41,14 @@ class DiscountRule(TimestampMixin):
     )
 
     program_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("bonus_programs.id", ondelete="CASCADE"),
         UUID(as_uuid=True),
+        ForeignKey("bonus_programs.id", ondelete="CASCADE"),
         nullable=False,
     )
 
     product_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("products.id"),
         UUID(as_uuid=True),
+        ForeignKey("products.id"),
         nullable=True,
     )
 
@@ -65,14 +65,14 @@ class GiftRule(TimestampMixin):
     )
 
     program_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("bonus_programs.id", ondelete="CASCADE"),
         UUID(as_uuid=True),
+        ForeignKey("bonus_programs.id", ondelete="CASCADE"),
         nullable=False,
     )
 
     product_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("products.id"),
         UUID(as_uuid=True),
+        ForeignKey("products.id"),
         nullable=False,
     )
 
@@ -89,8 +89,8 @@ class PointsRule(TimestampMixin):
     )
 
     program_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("bonus_programs.id", ondelete="CASCADE"),
         UUID(as_uuid=True),
+        ForeignKey("bonus_programs.id", ondelete="CASCADE"),
         nullable=False,
     )
 

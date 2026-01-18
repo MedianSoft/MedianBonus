@@ -17,8 +17,8 @@ class Product(TimestampMixin):
     )
 
     store_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("stores.id", ondelete="CASCADE"),
         UUID(as_uuid=True),
+        ForeignKey("stores.id", ondelete="CASCADE"),
         nullable=False,
     )
 

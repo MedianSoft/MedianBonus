@@ -18,8 +18,8 @@ class Store(TimestampMixin):
     )
 
     business_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("businesses.id"),
         UUID(as_uuid=True),
+        ForeignKey("businesses.id"),
         nullable=False,
     )
 

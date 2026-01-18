@@ -24,14 +24,14 @@ class CustomerGift(TimestampMixin):
     __tablename__ = "customer_gift"
 
     customer_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("customers.id"),
         UUID(as_uuid=True),
+        ForeignKey("customers.id"),
         primary_key=True,
     )
 
     product_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("products.id"),
         UUID(as_uuid=True),
+        ForeignKey("products.id"),
         primary_key=True,
     )
 
@@ -42,14 +42,14 @@ class CustomerPoints(TimestampMixin):
     __tablename__ = "customer_points"
 
     customer_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("customers.id"),
         UUID(as_uuid=True),
+        ForeignKey("customers.id"),
         primary_key=True,
     )
 
     store_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("stores.id"),
         UUID(as_uuid=True),
+        ForeignKey("stores.id"),
         primary_key=True,
     )
 

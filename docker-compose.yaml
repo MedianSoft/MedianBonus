@@ -1,5 +1,5 @@
 services:
-  db:
+  database:
     image: postgres:16
     container_name: database
     restart: unless-stopped
@@ -10,7 +10,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "${DB_PORT_EXTERNAL}:${DB_PORT}"
 
   backend:
     build: .
@@ -19,18 +19,18 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
+      - database
     volumes:
       - .:/backend
     ports:
-      - "8000:8000"
+      - "${BE_PORT_EXTERNAL}:${BE_PORT}"
 
   frontend:
     build: ./frontend
     container_name: frontend
     restart: unless-stopped
     ports:
-      - "13000:3000"
+      - "${FE_PORT_EXTERNAL}:${FE_PORT}"
     volumes:
       - ./frontend/src:/app/src:ro
       - ./frontend/public:/app/public:ro
@@ -55,7 +55,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PG_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PG_PASSWORD}
     ports:
-      - "8080:80"
+      - "${PG_PORT}:80"
 
 volumes:
   db_data:
