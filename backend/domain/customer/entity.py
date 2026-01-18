@@ -4,7 +4,8 @@ from sqlalchemy import UUID, Enum, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.database.base import TimestampMixin
-from backend.domain.customer import CustomerStatus
+
+from .enum import CustomerStatus
 
 
 class Customer(TimestampMixin):
