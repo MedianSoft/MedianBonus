@@ -1,4 +1,4 @@
-from backend.domain.store import StoreStatus, Store, StoreRepository
+from backend.domain.store import Store, StoreRepository, StoreStatus
 from backend.factories.store import get_store_repository
 from backend.schemas.store import (
     StoreCreateRequest,
@@ -17,9 +17,7 @@ class StoreService:
         self.repository = repository
 
     async def create(self, data: StoreCreateRequest) -> StoreResponse:
-        existing = await self.repository.get_by_name(
-            name=data.name, business_id=data.business_id
-        )
+        existing = await self.repository.get_by_name(name=data.name, business_id=data.business_id)
         if existing:
             raise AlreadyExistsError("Store")
 
@@ -29,9 +27,7 @@ class StoreService:
         return StoreResponse.model_validate(result)
 
     async def delete(self, data: StoreDeleteRequest) -> StoreResponse | None:
-        existing = await self.repository.get_by_name(
-            name=data.name, business_id=data.business_id
-        )
+        existing = await self.repository.get_by_name(name=data.name, business_id=data.business_id)
         if not existing:
             raise NotFoundError("Store")
 
@@ -41,9 +37,7 @@ class StoreService:
         return StoreResponse.model_validate(result)
 
     async def update(self, data: StoreUpdateRequest) -> StoreResponse | None:
-        existing = await self.repository.get_by_name(
-            name=data.name, business_id=data.business_id
-        )
+        existing = await self.repository.get_by_name(name=data.name, business_id=data.business_id)
         if not existing:
             raise NotFoundError("Store")
 
@@ -54,9 +48,7 @@ class StoreService:
         return StoreResponse.model_validate(result)
 
     async def get_by_name(self, data: StoreGetByNameRequest) -> StoreResponse | None:
-        result = await self.repository.get_by_name(
-            name=data.name, business_id=data.business_id
-        )
+        result = await self.repository.get_by_name(name=data.name, business_id=data.business_id)
         if not result:
             raise NotFoundError("Store")
 
@@ -67,6 +59,4 @@ class StoreService:
         if not result:
             raise NotFoundError("Store")
 
-        return StoreListResponse(
-            storees=[StoreResponse.model_validate(store) for store in result]
-        )
+        return StoreListResponse(storees=[StoreResponse.model_validate(store) for store in result])

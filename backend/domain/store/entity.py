@@ -1,9 +1,10 @@
 import uuid
 
-from sqlalchemy import Enum, ForeignKey, String, UUID
+from sqlalchemy import UUID, Enum, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.database.base import TimestampMixin
+
 from .enum import StoreStatus
 
 
@@ -16,7 +17,11 @@ class Store(TimestampMixin):
         default=uuid.uuid4,
     )
 
-    business_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("businesses.id"))
+    business_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("businesses.id"),
+        UUID(as_uuid=True),
+        nullable=False,
+    )
 
     name: Mapped[str] = mapped_column(
         String(255),

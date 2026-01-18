@@ -11,7 +11,6 @@ from backend.schemas.product import (
 )
 from backend.services.product import ProductService
 
-
 router = APIRouter(prefix="/product", tags=["product"])
 
 
@@ -27,7 +26,7 @@ router = APIRouter(prefix="/product", tags=["product"])
 async def create(
     data: ProductCreateRequest,
     service: ProductService = Depends(get_product_service),
-):
+) -> ProductResponse:
     return await service.create(data)
 
 
@@ -39,7 +38,7 @@ async def create(
 async def delete(
     data: ProductDeleteRequest,
     service: ProductService = Depends(get_product_service),
-):
+) -> ProductResponse | None:
     return await service.delete(data)
 
 
@@ -51,7 +50,7 @@ async def delete(
 async def get_by_name(
     data: ProductGetByNameRequest,
     service: ProductService = Depends(get_product_service),
-):
+) -> ProductResponse | None:
     return await service.get_by_name(data)
 
 
@@ -63,5 +62,5 @@ async def get_by_name(
 async def get_all(
     data: ProductListRequest,
     service: ProductService = Depends(get_product_service),
-):
+) -> ProductListResponse:
     return await service.get_all(data)

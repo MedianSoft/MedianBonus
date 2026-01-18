@@ -11,7 +11,6 @@ from backend.schemas.business import (
 )
 from backend.services.business import BusinessService
 
-
 router = APIRouter(prefix="/business", tags=["business"])
 
 
@@ -27,7 +26,7 @@ router = APIRouter(prefix="/business", tags=["business"])
 async def register(
     data: BusinessCreateRequest,
     service: BusinessService = Depends(get_business_service),
-):
+) -> BusinessResponse:
     return await service.create(data)
 
 
@@ -40,7 +39,7 @@ async def register(
 async def suspend(
     data: BusinessDeleteRequest,
     service: BusinessService = Depends(get_business_service),
-):
+) -> BusinessResponse | None:
     return await service.delete(data)
 
 
@@ -52,7 +51,7 @@ async def suspend(
 async def get_by_email(
     data: BusinessGetByEmailRequest,
     service: BusinessService = Depends(get_business_service),
-):
+) -> BusinessResponse | None:
     return await service.get_by_email(data)
 
 
@@ -64,7 +63,7 @@ async def get_by_email(
 async def get_by_id(
     data: BusinessGetByIDRequest,
     service: BusinessService = Depends(get_business_service),
-):
+) -> BusinessResponse | None:
     return await service.get_by_id(data)
 
 
@@ -75,5 +74,5 @@ async def get_by_id(
 )
 async def get_all(
     service: BusinessService = Depends(get_business_service),
-):
+) -> BusinessListResponse:
     return await service.get_all()

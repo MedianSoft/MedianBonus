@@ -22,3 +22,69 @@ dev = [
     "mypy>=1.19.1",
     "ruff>=0.14.13",
 ]
+
+[tool.black]
+line-length = 120
+target-version = ["py313"]
+skip-string-normalization = false
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+fix = true
+exclude = [
+    ".venv",
+    "venv",
+    ".idea",
+    "migrations",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+select = [
+    "F", # pyflakes (ошибки)
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "I", # isort
+    "UP", # pyupgrade
+    "B", # flake8-bugbear
+    "SIM", # flake8-simplify
+    "C4", # flake8-comprehensions
+    "T20", # print / pprint
+    "ARG", # unused arguments
+]
+ignore = [
+    "E501", # line length — handled by Black
+    "B008", # function call in argument defaults (часто валидно)
+]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-single-line = false
+known-first-party = ["backend"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+warn_unused_configs = true
+warn_return_any = true
+warn_unreachable = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+show_error_codes = true
+pretty = true
+exclude = [
+    "migrations",
+    "tests/fixtures",
+]
+
+[[tool.mypy.overrides]]
+module = [
+    "asyncpg.*",
+    "sqlalchemy.*",
+]
+ignore_missing_imports = true

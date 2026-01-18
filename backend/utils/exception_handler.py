@@ -29,7 +29,7 @@ class NotFoundError(HTTPError):
 def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(HTTPError)
     async def http_error_handler(
-        request: Request,
+        request: Request,  # noqa
         exc: HTTPError,
     ) -> JSONResponse:
         return JSONResponse(

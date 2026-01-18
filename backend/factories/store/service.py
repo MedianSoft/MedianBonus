@@ -1,8 +1,8 @@
 from fastapi import Depends
 
-from .repository import get_store_repository
 from ...domain.store.repository import StoreRepository
 from ...services.store import StoreService
+from .repository import get_store_repository
 
 
 def get_store_service(

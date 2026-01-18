@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.domain.store import StoreStatus, Store
+from backend.domain.store import Store, StoreStatus
 
 
 class StoreRepository:

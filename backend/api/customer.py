@@ -9,7 +9,6 @@ from backend.schemas.customer import (
 )
 from backend.services.customer import CustomerService
 
-
 router = APIRouter(prefix="/customer", tags=["customer"])
 
 
@@ -25,7 +24,7 @@ router = APIRouter(prefix="/customer", tags=["customer"])
 async def register(
     data: CustomerCreateRequest,
     service: CustomerService = Depends(get_customer_service),
-):
+) -> CustomerResponse:
     return await service.create(data)
 
 
@@ -37,7 +36,7 @@ async def register(
 async def get_by_phone(
     data: CustomerGetByPhoneRequest,
     service: CustomerService = Depends(get_customer_service),
-):
+) -> CustomerResponse:
     return await service.get_by_phone(data)
 
 
@@ -48,5 +47,5 @@ async def get_by_phone(
 )
 async def get_all(
     service: CustomerService = Depends(get_customer_service),
-):
+) -> CustomerListResponse:
     return await service.get_all()

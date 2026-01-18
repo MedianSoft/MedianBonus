@@ -18,6 +18,7 @@ from backend.domain.product import Product, ProductStatus
 
 # noinspection PyUnresolvedReferences
 from backend.domain.store import Store, StoreStatus
+
 from .base import Base
 from .session import engine
 

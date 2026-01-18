@@ -1,9 +1,10 @@
 import uuid
 
-from sqlalchemy import Enum, String, UUID
+from sqlalchemy import UUID, Enum, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.database.base import TimestampMixin
+
 from .enum import BusinessStatus
 
 

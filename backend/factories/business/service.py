@@ -2,6 +2,7 @@ from fastapi import Depends
 
 from backend.domain.business import BusinessRepository
 from backend.services.business import BusinessService
+
 from .repository import get_business_repository
 
 

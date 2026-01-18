@@ -40,9 +40,7 @@ class BusinessService:
 
         return BusinessResponse.model_validate(result)
 
-    async def get_by_email(
-        self, data: BusinessGetByEmailRequest
-    ) -> BusinessResponse | None:
+    async def get_by_email(self, data: BusinessGetByEmailRequest) -> BusinessResponse | None:
         result = await self.repository.get_by_email(str(data.email))
         if not result:
             raise NotFoundError("Business")
@@ -61,8 +59,4 @@ class BusinessService:
         if not result:
             raise NotFoundError("Businesses")
 
-        return BusinessListResponse(
-            businesses=[
-                BusinessResponse.model_validate(business) for business in result
-            ]
-        )
+        return BusinessListResponse(businesses=[BusinessResponse.model_validate(business) for business in result])

@@ -1,8 +1,8 @@
 from fastapi import Depends
 
-from .repository import get_product_repository
 from ...domain.product.repository import ProductRepository
 from ...services.product import ProductService
+from .repository import get_product_repository
 
 
 def get_product_service(

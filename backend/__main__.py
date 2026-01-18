@@ -1,4 +1,6 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from typing import Any
 
 import uvicorn
 from fastapi import FastAPI
@@ -10,7 +12,7 @@ from backend.utils.exception_handler import register_exception_handlers
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):  # noqa
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, Any]:  # noqa
     await init_database()
     yield
     if app_settings.env == "dev":

@@ -44,7 +44,5 @@ class BusinessRepository:
         return result.scalar_one_or_none()
 
     async def get_all(self) -> list[Business | None]:
-        result = await self.session.execute(
-            select(Business).where(Business.status != BusinessStatus.SUSPENDED)
-        )
+        result = await self.session.execute(select(Business).where(Business.status != BusinessStatus.SUSPENDED))
         return list(result.scalars().all())

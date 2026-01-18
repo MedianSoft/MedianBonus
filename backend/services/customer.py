@@ -11,9 +11,7 @@ from backend.utils.exception_handler import NotFoundError
 
 
 class CustomerService:
-    def __init__(
-        self, repository: CustomerRepository = get_customer_repository()
-    ) -> None:
+    def __init__(self, repository: CustomerRepository = get_customer_repository()) -> None:
         self.repository = repository
 
     async def create(self, data: CustomerCreateRequest) -> CustomerResponse:
@@ -37,6 +35,4 @@ class CustomerService:
         if not result:
             raise NotFoundError("Customers")
 
-        return CustomerListResponse(
-            customers=[CustomerResponse.model_validate(customer) for customer in result]
-        )
+        return CustomerListResponse(customers=[CustomerResponse.model_validate(customer) for customer in result])

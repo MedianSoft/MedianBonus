@@ -11,7 +11,6 @@ from backend.schemas.store import (
 )
 from backend.services.store import StoreService
 
-
 router = APIRouter(prefix="/store", tags=["store"])
 
 
@@ -27,7 +26,7 @@ router = APIRouter(prefix="/store", tags=["store"])
 async def create(
     data: StoreCreateRequest,
     service: StoreService = Depends(get_store_service),
-):
+) -> StoreResponse:
     return await service.create(data)
 
 
@@ -39,7 +38,7 @@ async def create(
 async def delete(
     data: StoreDeleteRequest,
     service: StoreService = Depends(get_store_service),
-):
+) -> StoreResponse | None:
     return await service.delete(data)
 
 
@@ -51,7 +50,7 @@ async def delete(
 async def get_by_name(
     data: StoreGetByNameRequest,
     service: StoreService = Depends(get_store_service),
-):
+) -> StoreResponse | None:
     return await service.get_by_name(data)
 
 
@@ -63,5 +62,5 @@ async def get_by_name(
 async def get_all(
     data: StoreListRequest,
     service: StoreService = Depends(get_store_service),
-):
+) -> StoreListResponse:
     return await service.get_all(data)

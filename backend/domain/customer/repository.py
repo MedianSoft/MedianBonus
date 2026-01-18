@@ -20,9 +20,7 @@ class CustomerRepository:
         return customer
 
     async def get_by_phone(self, phone: str) -> Customer | None:
-        result = await self.session.execute(
-            select(Customer).where(Customer.phone == phone)
-        )
+        result = await self.session.execute(select(Customer).where(Customer.phone == phone))
         return result.scalar_one_or_none()
 
     async def get_all(self) -> list[Customer | None]:
