@@ -77,18 +77,6 @@ async def get_all(
 
 
 @router.get(
-    "/get_all_by_business",
-    status_code=status.HTTP_200_OK,
-    response_model=StoreListResponse,
-)
-async def get_all_by_business(
-    data: StoreAllByBusinessRequest,
-    service: StoreService = Depends(get_store_service),
-) -> StoreListResponse:
-    return await service.get_all_by_business(data)
-
-
-@router.get(
     "/get_by_name_in_business",
     status_code=status.HTTP_200_OK,
     response_model=StoreResponse,
@@ -98,3 +86,15 @@ async def get_by_name_in_business(
     service: StoreService = Depends(get_store_service),
 ) -> StoreResponse | None:
     return await service.get_by_name_in_business(data)
+
+
+@router.get(
+    "/get_all_by_business",
+    status_code=status.HTTP_200_OK,
+    response_model=StoreListResponse,
+)
+async def get_all_by_business(
+    data: StoreAllByBusinessRequest,
+    service: StoreService = Depends(get_store_service),
+) -> StoreListResponse:
+    return await service.get_all_by_business(data)

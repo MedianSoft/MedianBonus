@@ -40,14 +40,6 @@ class ProductService:
 
         return ProductResponse.model_validate(result)
 
-    async def delete(self, data: "ProductDeleteRequest") -> None:
-        existing = await self.repository.get(Product, data.id)
-        if not existing:
-            raise NotFoundError("Product")
-
-        existing.status = ProductStatus.REMOVED
-        _ = await self.repository.update(existing)
-
     async def update(self, data: "ProductUpdateRequest") -> ProductResponse:
         existing = await self.repository.get(Product, data.id)
         if not existing:
@@ -63,6 +55,14 @@ class ProductService:
         result = await self.repository.update(existing)
 
         return ProductResponse.model_validate(result)
+
+    async def delete(self, data: "ProductDeleteRequest") -> None:
+        existing = await self.repository.get(Product, data.id)
+        if not existing:
+            raise NotFoundError("Product")
+
+        existing.status = ProductStatus.REMOVED
+        _ = await self.repository.update(existing)
 
     async def get(self, id: "uuid.UUID") -> ProductResponse:  # noqa
         result = await self.repository.get(Product, id)
