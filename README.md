@@ -7,10 +7,8 @@
 ```text
 median-bonus/
 ├── backend/                # Серверная часть (Python/FastAPI)
-│   ├── app/
-│   │   ├── main.py         # Точка входа в приложение
-│   │   └── api/            # Эндпоинты API
-│   └── pyproject.toml      # Зависимости и конфиг
+│   ├── main.py             # Точка входа в приложение
+│   └── api/                # Эндпоинты API
 │
 ├── frontend/               # Клиентская часть (React + Vite + TS)
 │   ├── src/
@@ -28,5 +26,5 @@ median-bonus/
 │   ├── vite.config.ts
 │   └── tsconfig.json
 │
-└── docker-compose.yml      # Оркестрация контейнеров
-
+├── docker-compose.yml      # Оркестрация контейнеров
+└── pyproject.toml          # Зависимости и конфиг
