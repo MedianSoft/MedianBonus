@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 
-from backend.factories.store import get_store_service
+from backend.factories.service import get_store_service
 from backend.schemas.store import (
     StoreCreateRequest,
     StoreDeleteRequest,

@@ -1,3 +1,5 @@
-from .entity import BonusProgram, DiscountRule, GiftRule, PointsRule
+from .entity import Bonus
+from .enum import BonusType
+from .repository import BonusRepository
 
-__all__ = ["BonusProgram", "DiscountRule", "GiftRule", "PointsRule"]
+__all__ = ["Bonus", "BonusType", "BonusRepository"]

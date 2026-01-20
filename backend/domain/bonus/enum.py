@@ -1,7 +1,7 @@
 import enum
 
 
-class BonusProgramType(enum.Enum):
+class BonusType(enum.Enum):
     DISCOUNT = "discount"
     GIFT = "gift"
     POINTS = "points"

@@ -1,14 +1,14 @@
 import uuid
 
-from sqlalchemy import UUID, Enum, ForeignKey
+from sqlalchemy import UUID, Enum, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.database.base import TimestampMixin
 
-from .enum import BonusProgramType
+from .enum import BonusType
 
 
-class BonusProgram(TimestampMixin):
+class Bonus(TimestampMixin):
     __tablename__ = "bonus_programs"
 
     id: Mapped[uuid.UUID] = mapped_column(
@@ -17,81 +17,29 @@ class BonusProgram(TimestampMixin):
         default=uuid.uuid4,
     )
 
+    type: Mapped[BonusType] = mapped_column(
+        Enum(BonusType, name="bonus_type"),
+        nullable=False,
+    )
+
     store_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("stores.id", ondelete="CASCADE"),
         nullable=False,
     )
 
-    type: Mapped[BonusProgramType] = mapped_column(
-        Enum(BonusProgramType, name="bonus_program_type"),
-        nullable=False,
-    )
-
-    is_active: Mapped[bool] = mapped_column(default=True)
-
-
-class DiscountRule(TimestampMixin):
-    __tablename__ = "discount_rules"
-
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        primary_key=True,
-        default=uuid.uuid4,
-    )
-
-    program_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("bonus_programs.id", ondelete="CASCADE"),
-        nullable=False,
-    )
-
-    product_id: Mapped[uuid.UUID] = mapped_column(
+    product_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("products.id"),
         nullable=True,
     )
 
-    percent: Mapped[int] = mapped_column(nullable=False)
-
-
-class GiftRule(TimestampMixin):
-    __tablename__ = "gift_rules"
-
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        primary_key=True,
-        default=uuid.uuid4,
-    )
-
-    program_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("bonus_programs.id", ondelete="CASCADE"),
+    parameter: Mapped[int] = mapped_column(
+        Integer,
         nullable=False,
     )
 
-    product_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("products.id"),
+    is_active: Mapped[bool] = mapped_column(
         nullable=False,
+        default=True,
     )
-
-    count: Mapped[int] = mapped_column(nullable=False)
-
-
-class PointsRule(TimestampMixin):
-    __tablename__ = "points_rules"
-
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        primary_key=True,
-        default=uuid.uuid4,
-    )
-
-    program_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("bonus_programs.id", ondelete="CASCADE"),
-        nullable=False,
-    )
-
-    points: Mapped[int] = mapped_column(nullable=False)

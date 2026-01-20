@@ -1,5 +1,5 @@
 from backend.domain.employee import Employee, EmployeeRepository, EmployeeStatus
-from backend.factories.employee import get_employee_repository
+from backend.factories.repository import get_employee_repository
 from backend.schemas.employee import (
     EmployeeCreateRequest,
     EmployeeDeleteRequest,

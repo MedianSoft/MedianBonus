@@ -1,5 +1,5 @@
 from backend.domain.business import Business, BusinessRepository, BusinessStatus
-from backend.factories.business import get_business_repository
+from backend.factories.repository import get_business_repository
 from backend.schemas.business import (
     BusinessCreateRequest,
     BusinessDeleteRequest,

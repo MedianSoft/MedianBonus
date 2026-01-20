@@ -1,7 +1,7 @@
 from backend.domain.customer import CustomerStatus
 from backend.domain.customer.entity import Customer
 from backend.domain.customer.repository import CustomerRepository
-from backend.factories.customer import get_customer_repository
+from backend.factories.repository import get_customer_repository
 from backend.schemas.customer import (
     CustomerCreateRequest,
     CustomerDeleteRequest,

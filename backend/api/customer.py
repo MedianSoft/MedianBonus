@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 
-from backend.factories.customer import get_customer_service
+from backend.factories.service import get_customer_service
 from backend.schemas.customer import (
     CustomerCreateRequest,
     CustomerDeleteRequest,

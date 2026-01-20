@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 
-from backend.factories.product import get_product_service
+from backend.factories.service import get_product_service
 from backend.schemas.product import (
     ProductCreateRequest,
     ProductDeleteRequest,

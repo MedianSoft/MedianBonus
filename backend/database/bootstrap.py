@@ -1,11 +1,6 @@
 # ruff: noqa: F401
 # noinspection PyUnresolvedReferences
-from backend.domain.bonus import (
-    BonusProgram,
-    DiscountRule,
-    GiftRule,
-    PointsRule,
-)
+from backend.domain.bonus import Bonus, BonusType
 
 # noinspection PyUnresolvedReferences
 from backend.domain.business import Business, BusinessStatus

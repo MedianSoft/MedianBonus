@@ -2,24 +2,23 @@ import uuid
 
 from pydantic import BaseModel
 
+from backend.schemas.base import BaseRequest
 
-class CustomerCreateRequest(BaseModel):
+
+class CustomerCreateRequest(BaseRequest):
     phone: str
     name: str | None
 
-    class Config:
-        from_attributes = True
 
-
-class CustomerDeleteRequest(BaseModel):
+class CustomerDeleteRequest(BaseRequest):
     id: uuid.UUID
 
 
-class CustomerGetByPhoneRequest(BaseModel):
+class CustomerGetByPhoneRequest(BaseRequest):
     phone: str
 
 
-class CustomerGetByIDRequest(BaseModel):
+class CustomerGetByIDRequest(BaseRequest):
     id: uuid.UUID
 
 
@@ -27,9 +26,6 @@ class CustomerResponse(BaseModel):
     id: uuid.UUID
     phone: str
     name: str | None
-
-    class Config:
-        from_attributes = True
 
 
 class CustomerListResponse(BaseModel):

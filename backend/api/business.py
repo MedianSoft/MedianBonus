@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 
-from backend.factories.business import get_business_service
+from backend.factories.service import get_business_service
 from backend.schemas.business import (
     BusinessCreateRequest,
     BusinessDeleteRequest,

@@ -4,20 +4,21 @@ from pydantic import BaseModel
 
 from backend.domain.product import ProductStatus
 from backend.domain.product.enum import Category
+from backend.schemas.base import BaseRequest
 
 
-class ProductCreateRequest(BaseModel):
+class ProductCreateRequest(BaseRequest):
     name: str
     store_id: uuid.UUID
     category: Category
     price: float
 
 
-class ProductDeleteRequest(BaseModel):
+class ProductDeleteRequest(BaseRequest):
     id: uuid.UUID
 
 
-class ProductUpdateRequest(BaseModel):
+class ProductUpdateRequest(BaseRequest):
     name: str
     new_name: str
     store_id: uuid.UUID
@@ -26,16 +27,16 @@ class ProductUpdateRequest(BaseModel):
     price: float
 
 
-class ProductGetByNameRequest(BaseModel):
+class ProductGetByNameRequest(BaseRequest):
     name: str
     store_id: uuid.UUID
 
 
-class ProductGetByIDRequest(BaseModel):
+class ProductGetByIDRequest(BaseRequest):
     id: uuid.UUID
 
 
-class ProductListRequest(BaseModel):
+class ProductListRequest(BaseRequest):
     store_id: uuid.UUID
 
 
@@ -46,9 +47,6 @@ class ProductResponse(BaseModel):
     status: ProductStatus
     category: Category
     price: float
-
-    class Config:
-        from_attributes = True
 
 
 class ProductListResponse(BaseModel):

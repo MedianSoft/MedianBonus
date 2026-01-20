@@ -3,26 +3,24 @@ import uuid
 from pydantic import BaseModel, EmailStr
 
 from backend.domain.business import BusinessStatus
+from backend.schemas.base import BaseRequest
 
 
-class BusinessCreateRequest(BaseModel):
+class BusinessCreateRequest(BaseRequest):
     email: EmailStr
     name: str
     password: str
 
-    class Config:
-        from_attributes = True
 
-
-class BusinessDeleteRequest(BaseModel):
+class BusinessDeleteRequest(BaseRequest):
     id: uuid.UUID
 
 
-class BusinessGetByEmailRequest(BaseModel):
+class BusinessGetByEmailRequest(BaseRequest):
     email: EmailStr
 
 
-class BusinessGetByIDRequest(BaseModel):
+class BusinessGetByIDRequest(BaseRequest):
     id: uuid.UUID
 
 
@@ -31,9 +29,6 @@ class BusinessResponse(BaseModel):
     email: EmailStr
     name: str
     status: BusinessStatus
-
-    class Config:
-        from_attributes = True
 
 
 class BusinessListResponse(BaseModel):

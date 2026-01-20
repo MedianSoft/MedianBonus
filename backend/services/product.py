@@ -1,5 +1,5 @@
 from backend.domain.product import Product, ProductRepository, ProductStatus
-from backend.factories.product import get_product_repository
+from backend.factories.repository import get_product_repository
 from backend.schemas.product import (
     ProductCreateRequest,
     ProductDeleteRequest,

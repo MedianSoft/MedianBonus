@@ -1,5 +1,5 @@
 from backend.domain.store import Store, StoreRepository, StoreStatus
-from backend.factories.store import get_store_repository
+from backend.factories.repository import get_store_repository
 from backend.schemas.store import (
     StoreCreateRequest,
     StoreDeleteRequest,

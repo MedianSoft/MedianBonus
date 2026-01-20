@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 
-from backend.factories.employee import get_employee_service
+from backend.factories.service import get_employee_service
 from backend.schemas.employee import (
     EmployeeCreateRequest,
     EmployeeDeleteRequest,
