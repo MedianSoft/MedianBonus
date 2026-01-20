@@ -26,3 +26,9 @@ pre-commit:
       skip:
         - merge
         - rebase
+
+    isort:
+      run: ~/.local/bin/uv run isort --profile black .
+      skip:
+        - merge
+        - rebase
