@@ -75,7 +75,7 @@ async def get_all(
     return await service.get_all()
 
 
-@router.get(
+@router.post(
     "/get_by_phone",
     status_code=status.HTTP_200_OK,
     response_model=CustomerResponse,

@@ -88,8 +88,8 @@ async def get_by_name_in_store(
     return await service.get_by_name_in_store(data)
 
 
-@router.get(
-    "/",
+@router.post(
+    "/get_all_by_store",
     status_code=status.HTTP_200_OK,
     response_model=ProductListResponse,
 )

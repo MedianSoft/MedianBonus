@@ -76,7 +76,7 @@ async def get_all(
     return await service.get_all()
 
 
-@router.get(
+@router.post(
     "/get_by_name_in_business",
     status_code=status.HTTP_200_OK,
     response_model=StoreResponse,
@@ -88,7 +88,7 @@ async def get_by_name_in_business(
     return await service.get_by_name_in_business(data)
 
 
-@router.get(
+@router.post(
     "/get_all_by_business",
     status_code=status.HTTP_200_OK,
     response_model=StoreListResponse,

@@ -76,7 +76,7 @@ async def get_all(
 
 
 @router.post(
-    "/get_by_id",
+    "/get_by_email",
     status_code=status.HTTP_200_OK,
     response_model=EmployeeResponse,
 )
