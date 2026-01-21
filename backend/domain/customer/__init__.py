@@ -1,5 +1,5 @@
-from .entity import Customer, CustomerGift, CustomerPoints
+from .entity import Customer, CustomerBonus
 from .enum import CustomerStatus
 from .repository import CustomerRepository
 
-__all__ = ["Customer", "CustomerGift", "CustomerPoints", "CustomerStatus", "CustomerRepository"]
+__all__ = ["Customer", "CustomerBonus", "CustomerStatus", "CustomerRepository"]

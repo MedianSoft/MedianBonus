@@ -41,7 +41,7 @@ class BonusService:
             raise NotFoundError("Store")
 
         if data.parameter:
-            existing.parameter = data.parameter
+            existing.value = data.parameter
         if data.product_id:
             existing.product_id = data.product_id
 

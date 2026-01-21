@@ -3,12 +3,12 @@ import uuid
 from sqlalchemy import UUID, Enum, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column
 
-from backend.domain.base.entity import BaseModel
+from backend.domain.base import Entity
 
 from .enum import BonusType
 
 
-class Bonus(BaseModel):
+class Bonus(Entity):
     __tablename__ = "bonus_programs"
 
     type: Mapped[BonusType] = mapped_column(
@@ -28,7 +28,7 @@ class Bonus(BaseModel):
         nullable=True,
     )
 
-    parameter: Mapped[int] = mapped_column(
+    value: Mapped[int] = mapped_column(
         Integer,
         nullable=False,
     )

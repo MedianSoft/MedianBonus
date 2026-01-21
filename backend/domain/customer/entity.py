@@ -3,27 +3,27 @@ import uuid
 from sqlalchemy import UUID, Enum, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from backend.domain.base.entity import BaseModel
+from backend.domain.base import Base, Entity
 
 from .enum import CustomerStatus
 
 
-class Customer(BaseModel):
+class Customer(Entity):
     __tablename__ = "customers"
 
     name: Mapped[str] = mapped_column(String(63))
 
-    phone: Mapped[str] = mapped_column(unique=True, index=True)
+    phone: Mapped[str] = mapped_column(String(32), unique=True, index=True, nullable=False)
 
     status: Mapped[CustomerStatus] = mapped_column(
-        Enum(CustomerStatus, name="business_status"),
+        Enum(CustomerStatus, name="customer_status"),
         nullable=False,
         default=CustomerStatus.ACTIVATED,
     )
 
 
-class CustomerGift(BaseModel):
-    __tablename__ = "customer_gift"
+class CustomerBonus(Base):
+    __tablename__ = "customer_bonus"
 
     customer_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
@@ -31,28 +31,10 @@ class CustomerGift(BaseModel):
         primary_key=True,
     )
 
-    product_id: Mapped[uuid.UUID] = mapped_column(
+    bonus_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
-        ForeignKey("products.id"),
+        ForeignKey("bonus.id"),
         primary_key=True,
     )
 
-    count: Mapped[int] = mapped_column(default=0)
-
-
-class CustomerPoints(BaseModel):
-    __tablename__ = "customer_points"
-
-    customer_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("customers.id"),
-        primary_key=True,
-    )
-
-    store_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("stores.id"),
-        primary_key=True,
-    )
-
-    points: Mapped[int] = mapped_column(default=0)
+    value: Mapped[int] = mapped_column(default=0)

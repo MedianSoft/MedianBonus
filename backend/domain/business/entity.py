@@ -1,12 +1,12 @@
 from sqlalchemy import Enum, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from backend.domain.base.entity import BaseModel
+from backend.domain.base import Entity
 
 from .enum import BusinessStatus
 
 
-class Business(BaseModel):
+class Business(Entity):
     __tablename__ = "businesses"
 
     name: Mapped[str] = mapped_column(

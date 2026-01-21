@@ -9,7 +9,7 @@ class Base(DeclarativeBase):
     __abstract__ = True
 
 
-class BaseModel(Base):
+class Entity(Base):
     __abstract__ = True
 
     id: Mapped[uuid.UUID] = mapped_column(

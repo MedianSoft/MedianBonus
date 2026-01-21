@@ -3,11 +3,12 @@ import uuid
 from sqlalchemy import UUID, Enum, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from backend.domain.base.entity import BaseModel
-from backend.domain.product.enum import Category, ProductStatus
+from backend.domain.base import Entity
+
+from .enum import Category, ProductStatus
 
 
-class Product(BaseModel):
+class Product(Entity):
     __tablename__ = "products"
 
     store_id: Mapped[uuid.UUID] = mapped_column(
