@@ -1,3 +1,4 @@
+import styles from './Sidebar.module.css'
 import { Plus } from 'lucide-react'; // используй любые иконки
 
 interface MenuItem {
@@ -21,8 +22,9 @@ const MENU_ITEMS: MenuItem[] = [
 
 export const Sidebar = ({ activeTab, onTabChange, onQuickCreate, userRole }: Props) => {
   return (
-    <aside className="w-64 bg-[#1E1E1E] border-r border-gray-800 flex flex-col h-screen sticky top-0">
-      <div className="p-6 font-bold text-orange-500 text-xl border-b border-gray-800">
+    <aside className={styles.aside}>
+      {/*}<div className="font-bold text-orange-500 text-xl border-b border-gray-800">*/}
+      <div className={styles.asideHeader}>
         MEDIAN ADMIN
       </div>
       <nav className="flex-1 p-4 space-y-2">
@@ -31,7 +33,7 @@ export const Sidebar = ({ activeTab, onTabChange, onQuickCreate, userRole }: Pro
             <button
               onClick={() => onTabChange(item.id)}
               className={`flex-1 text-left px-4 py-2 rounded-lg transition-colors ${
-                activeTab === item.id ? 'bg-orange-500 text-white' : 'text-gray-400 hover:bg-gray-800'
+                activeTab === item.id ? 'bg-orange-500' : 'text-gray-400 hover:bg-gray-800'
               }`}
             >
               {item.label}

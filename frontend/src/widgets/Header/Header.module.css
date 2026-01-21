@@ -1,0 +1,27 @@
+@reference '../../index.css';
+
+
+.header {
+  height: var(--layout-header-height);
+  background-color: var(--header-bg);
+  border-bottom: 1px solid #333;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #f97316; /* Твой оранжевый */
+}
+
+/* Если ты хочешь использовать Tailwind внутри CSS (это удобно) */
+.navLink {
+  @apply text-gray-400 hover:text-white transition-colors cursor-pointer mx-4;
+}

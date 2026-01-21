@@ -1,3 +1,4 @@
+import styles from './Header.module.css';
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
@@ -10,7 +11,7 @@ export default function Header() {
   };
 
   return (
-    <header className="flex bg-hader-bg items-center justify-between px-6 py-4 border-b border-gray-200">
+    <header className={styles.header}>
       <div className="flex items-center gap-2">
         <div className="w-8 h-8 bg-orange-500 rounded-lg"></div> {/* Заглушка логотипа */}
         <span className="text-xl font-bold">Median Bonus</span>

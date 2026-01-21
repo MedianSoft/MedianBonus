@@ -1,0 +1,29 @@
+@reference '../../index.css';
+
+.aside {
+  /* Ширина w-64 в Tailwind это 16rem (256px) */
+  width: 16rem;
+
+  /* Используем переменную для фона, если она есть, или напрямую */
+  background-color: var(--sidebar-bg, #1e1e1e);
+
+  border-right: 1px solid #1f2937; /* border-gray-800 */
+  display: flex;
+  flex-direction: column;
+
+  /* Позиционирование */
+  height: 100vh;
+  position: sticky;
+  top: 0;
+
+  /* Плавность, если будет скрытие */
+  transition: width 0.3s ease;
+}
+
+.asideHeader {
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @apply font-bold text-orange-500 text-xl border-b border-gray-800;
+}

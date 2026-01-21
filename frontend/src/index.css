@@ -9,6 +9,9 @@
   --color-app-text-main: var(--app-text-main);
   --color-header-bg: var(--header-bg);
   --color-app-text-main: var(--app-text-main);
+  --color-admin-bg: var(--admin-bg);
+  --color-sidebar-bg: var(--sidebar-bg);
+  --layout-header-height: 84px;
 }
 
 :root {
@@ -30,13 +33,15 @@
   /*--app-bg: #161021; --app-surface: #211a2e; --app-primary: #a855f7; --app-border: #3b2d52;
 
   /* ВАРАНТ 5:/* Цветовая гамма с изображения (Светлая тема с бирюзовым акцентом) */
-  --app-bg: #FBF7F2;          /* Мягкий бежевый фон */
+  --app-bg: #FBF7F2;
+  --admin-bg: #FBF7F2;
+  --sidebar-bg: #618274;
   --app-surface: #FFFFFF;     /* Белые карточки */
   --app-primary: #008775;     /* Темно-бирюзовый (Teal) для акцентов */
   --app-text-main: #2C3E50;   /* Темно-синий/черный для основного текста */
   --app-text-secondary: #7F8C8D; /* Серый для второстепенного текста */
   --app-border: #E0E0E0;      /* Тонкие светлые границы */
-  --header-bg: #FFFFFF;
+  --header-bg: #c7c6ff;
 
 }
 
