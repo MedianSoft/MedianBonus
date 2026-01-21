@@ -1,11 +1,8 @@
 from collections.abc import AsyncGenerator
-from typing import TypeVar
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from backend.setting import database_settings
-
-T = TypeVar("T")
 
 engine = create_async_engine(
     database_settings.dsn,

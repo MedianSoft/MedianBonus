@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 
 from backend.domain.employee import Employee, EmployeeStatus
-from backend.factoriy.repository import get_employee_repository
 from backend.schema.employee import (
     EmployeeListResponse,
     EmployeeResponse,
@@ -22,7 +21,7 @@ if TYPE_CHECKING:
 
 
 class EmployeeService:
-    def __init__(self, repository: "EmployeeRepository" = get_employee_repository()):
+    def __init__(self, repository: "EmployeeRepository"):
         self.repository = repository
 
     async def create(self, data: "EmployeeCreateRequest") -> EmployeeResponse:

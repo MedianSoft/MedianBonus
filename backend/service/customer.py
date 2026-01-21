@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 
 from backend.domain.customer import Customer, CustomerStatus
-from backend.factoriy.repository import get_customer_repository
 from backend.schema.customer import (
     CustomerListResponse,
     CustomerResponse,
@@ -21,7 +20,7 @@ if TYPE_CHECKING:
 
 
 class CustomerService:
-    def __init__(self, repository: "CustomerRepository" = get_customer_repository()) -> None:
+    def __init__(self, repository: "CustomerRepository") -> None:
         self.repository = repository
 
     async def create(self, data: "CustomerCreateRequest") -> CustomerResponse:

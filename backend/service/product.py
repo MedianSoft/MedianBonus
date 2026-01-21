@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 
 from backend.domain.product import Product, ProductStatus
-from backend.factoriy.repository import get_product_repository
 from backend.schema.product import (
     ProductListResponse,
     ProductResponse,
@@ -22,7 +21,7 @@ if TYPE_CHECKING:
 
 
 class ProductService:
-    def __init__(self, repository: "ProductRepository" = get_product_repository()):
+    def __init__(self, repository: "ProductRepository"):
         self.repository = repository
 
     async def create(self, data: "ProductCreateRequest") -> ProductResponse:

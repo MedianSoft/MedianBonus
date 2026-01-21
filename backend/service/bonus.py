@@ -2,7 +2,6 @@ import uuid
 from typing import TYPE_CHECKING
 
 from backend.domain.bonus import Bonus
-from backend.factoriy.repository import get_bonus_repository
 from backend.schema.bonus import BonusGetAllByStore, BonusListResponse, BonusResponse
 from backend.util.exception_handler import NotFoundError
 
@@ -18,7 +17,7 @@ if TYPE_CHECKING:
 
 
 class BonusService:
-    def __init__(self, repository: "BonusRepository" = get_bonus_repository()):
+    def __init__(self, repository: "BonusRepository"):
         self.repository = repository
 
     async def create(self, data: "BonusCreateRequest") -> BonusResponse:

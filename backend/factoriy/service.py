@@ -3,11 +3,16 @@ from typing import TYPE_CHECKING
 
 from fastapi import Depends
 
+from backend.domain.customer_bonus import CustomerBonusRepository
+from backend.domain.order import OrderProductRepository
 from backend.factoriy.repository import (
     get_bonus_repository,
     get_business_repository,
+    get_customer_bonus_repository,
     get_customer_repository,
     get_employee_repository,
+    get_order_product_repository,
+    get_order_repository,
     get_product_repository,
     get_store_repository,
 )
@@ -24,6 +29,7 @@ if TYPE_CHECKING:
     from backend.domain.business import BusinessRepository
     from backend.domain.customer import CustomerRepository
     from backend.domain.employee import EmployeeRepository
+    from backend.domain.order import OrderRepository
     from backend.domain.product import ProductRepository
     from backend.domain.store import StoreRepository
 
@@ -71,5 +77,19 @@ def get_bonus_service(
 
 
 @lru_cache
-def get_order_service() -> OrderService:
-    return OrderService()
+def get_order_service(
+    order_repository: "OrderRepository" = Depends(get_order_repository),
+    order_product_repository: "OrderProductRepository" = Depends(get_order_product_repository),
+    product_repository: "ProductRepository" = Depends(get_product_repository),
+    bonus_repository: "BonusRepository" = Depends(get_bonus_repository),
+    customer_repository: "CustomerRepository" = Depends(get_customer_repository),
+    customer_bonus_repository: "CustomerBonusRepository" = Depends(get_customer_bonus_repository),
+) -> OrderService:
+    return OrderService(
+        order_repository=order_repository,
+        order_product_repository=order_product_repository,
+        product_repository=product_repository,
+        bonus_repository=bonus_repository,
+        customer_bonus_repository=customer_bonus_repository,
+        customer_repository=customer_repository,
+    )

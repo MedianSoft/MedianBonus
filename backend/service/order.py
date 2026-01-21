@@ -1,23 +1,17 @@
 from typing import TYPE_CHECKING
 
 from backend.domain.bonus import BonusType
-from backend.domain.customer import Customer, CustomerRepository
+from backend.domain.customer import Customer
+from backend.domain.customer_bonus import CustomerBonus
 from backend.domain.order import Order, OrderProduct
 from backend.domain.product import Product
-from backend.factoriy.repository import (
-    get_bonus_repository,
-    get_customer_bonus_repository,
-    get_customer_repository,
-    get_order_product_repository,
-    get_order_repository,
-    get_product_repository,
-)
 from backend.schema.order import OrderProductRequest, OrderRequest, OrderResponse
 from backend.util.exception_handler import NotFoundError
 
 if TYPE_CHECKING:
     from backend.domain.bonus import BonusRepository
-    from backend.domain.customer_bonus import CustomerBonus, CustomerBonusRepository
+    from backend.domain.customer import CustomerRepository
+    from backend.domain.customer_bonus import CustomerBonusRepository
     from backend.domain.order import OrderProductRepository, OrderRepository
     from backend.domain.product import ProductRepository
 
@@ -25,12 +19,12 @@ if TYPE_CHECKING:
 class OrderService:
     def __init__(
         self,
-        order_repository: "OrderRepository" = get_order_repository(),
-        order_product_repository: "OrderProductRepository" = get_order_product_repository(),
-        bonus_repository: "BonusRepository" = get_bonus_repository(),
-        product_repository: "ProductRepository" = get_product_repository(),
-        customer_bonus_repository: "CustomerBonusRepository" = get_customer_bonus_repository(),
-        customer_repository: "CustomerRepository" = get_customer_repository(),
+        order_repository: "OrderRepository",
+        order_product_repository: "OrderProductRepository",
+        bonus_repository: "BonusRepository",
+        product_repository: "ProductRepository",
+        customer_bonus_repository: "CustomerBonusRepository",
+        customer_repository: "CustomerRepository",
     ) -> None:
         self.order_repository = order_repository
         self.order_product_repository = order_product_repository

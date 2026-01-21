@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 
 from backend.domain.store import Store, StoreStatus
-from backend.factoriy.repository import get_store_repository
 from backend.schema.store import (
     StoreListResponse,
     StoreResponse,
@@ -22,7 +21,7 @@ if TYPE_CHECKING:
 
 
 class StoreService:
-    def __init__(self, repository: "StoreRepository" = get_store_repository()):
+    def __init__(self, repository: "StoreRepository"):
         self.repository = repository
 
     async def create(self, data: "StoreCreateRequest") -> StoreResponse:

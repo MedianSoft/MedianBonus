@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 
 from backend.domain.business import Business, BusinessStatus
-from backend.factoriy.repository import get_business_repository
 from backend.schema.business import (
     BusinessListResponse,
     BusinessResponse,
@@ -22,7 +21,7 @@ if TYPE_CHECKING:
 
 
 class BusinessService:
-    def __init__(self, repository: "BusinessRepository" = get_business_repository()):
+    def __init__(self, repository: "BusinessRepository"):
         self.repository = repository
 
     async def create(self, data: "BusinessCreateRequest") -> BusinessResponse:
