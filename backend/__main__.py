@@ -4,6 +4,7 @@ from typing import Any
 
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api import (
     bonus_router,
@@ -28,6 +29,15 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, Any]:  # noqa
 
 
 app = FastAPI(lifespan=lifespan, title="MedianBonus")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 register_exception_handlers(app)
 
 routers = [
