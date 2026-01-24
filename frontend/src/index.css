@@ -1,1 +1,62 @@
 @import "tailwindcss";
+
+@theme {
+  /* Привязываем переменные к Tailwind */
+  --color-app-bg: var(--app-bg);             /*Фон */
+  --color-app-surface: var(--app-surface);
+  --color-app-primary: var(--app-primary);   /*Фон карточек*/
+  --color-app-border: var(--app-border);
+  --color-app-text-main: var(--app-text-main);
+  --color-header-bg: var(--header-bg);
+  --color-app-text-main: var(--app-text-main);
+  --color-admin-bg: var(--admin-bg);
+  --color-sidebar-bg: var(--sidebar-bg);
+  --layout-header-height: 84px;
+}
+
+:root {
+  /* === ВЫБОР ТЕМЫ (Раскомментируй только одну группу) === */
+
+  /* ВАРИАНТ 1: Midnight Orange (Твой стандарт) */
+ /* --app-bg: #121212;
+  --app-surface: #1e1e1e;
+  --app-primary: #f97316;
+  --app-border: #2e2e2e;
+*/
+  /* ВАРИАНТ 2: Deep Space Blue (Синий) */
+  /*--app-bg: #0f172a; --app-surface: #1e293b; --app-primary: #38bdf8; --app-border: #334155;*/
+
+  /* ВАРИАНТ 3: Cyber Emerald (Зеленый) */
+  /*--app-bg: #050505; --app-surface: #0f110f; --app-primary: #10b981; --app-border: #1a1c1a;*/
+
+  /* ВАРИАНТ 4: Royal Purple (Фиолетовый) */
+  /*--app-bg: #161021; --app-surface: #211a2e; --app-primary: #a855f7; --app-border: #3b2d52;
+
+  /* ВАРАНТ 5:/* Цветовая гамма с изображения (Светлая тема с бирюзовым акцентом) */
+ /*
+  -app-bg: #FBF7F2;
+  --admin-bg: #FBF7F2;
+  --sidebar-bg: #618274;
+  --app-surface: #FFFFFF;
+  --app-primary: #008775;
+  --app-text-main: #2C3E50;
+  --app-text-secondary: #7F8C8D;
+  --app-border: #E0E0E0;
+  --header-bg: #c7c6ff;
+  */
+  --app-bg: #E5E7EB;
+  --admin-bg: #E5E7EB;
+  --sidebar-bg: #6B7280;
+  --app-surface: #FFFFFF;
+  --app-primary: #008775;
+  --app-text-main: #000000;
+  --app-text-secondary: #7F8C8D;
+  --app-border: #E0E0E0;
+  --header-bg: #6B7280;
+}
+
+body {
+  background-color: var(--app-bg);
+  color: var(--app-text-main);
+  margin: 0;
+}
