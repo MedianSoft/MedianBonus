@@ -12,6 +12,27 @@ class HTTPError(Exception):
             self.detail = detail
 
 
+class UnauthorizedError(HTTPError):
+    status_code = status.HTTP_401_UNAUTHORIZED
+
+    def __init__(self, email: str = "mail"):
+        self.detail = f"Incorrect password for email - {email}"
+
+
+class RefreshTokenRevokedError(HTTPError):
+    status_code = status.HTTP_401_UNAUTHORIZED
+
+    def __init__(self):
+        self.detail = "Refresh token revoked"
+
+
+class RoleForbiddenError(HTTPError):
+    status_code = status.HTTP_403_FORBIDDEN
+
+    def __init__(self):
+        self.detail = "insufficient access rights"
+
+
 class AlreadyExistsError(HTTPError):
     status_code = status.HTTP_409_CONFLICT
 

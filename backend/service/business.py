@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING
 
+from pydantic.v1 import EmailStr
+
 from backend.domain.business import Business, BusinessStatus
 from backend.schema.business import (
     BusinessListResponse,
@@ -36,7 +38,12 @@ class BusinessService:
         )
         result = await self.repository.create(business)
 
-        return BusinessResponse.model_validate(result)
+        return BusinessResponse(
+            id=result.id,
+            email=EmailStr(result.email),
+            name=result.name,
+            status=result.status,
+        )
 
     async def update(self, data: "BusinessUpdateRequest") -> BusinessResponse:
         existing = await self.repository.get(Business, data.id)

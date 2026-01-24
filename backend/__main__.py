@@ -14,6 +14,7 @@ from backend.api import (
     order_router,
     product_router,
     store_router,
+    auth_router,
 )
 from backend.database.bootstrap import drop_database, init_database
 from backend.setting import app_settings
@@ -48,6 +49,7 @@ routers = [
     order_router,
     product_router,
     store_router,
+    auth_router,
 ]
 for router in routers:
     app.include_router(router)
