@@ -31,3 +31,5 @@ median-bonus/
 2. ```docker compose up```
 3. ```cd backend```
 4. ```alembic upgrade head```
+## Установка линтеров:
+```lefthook install```
