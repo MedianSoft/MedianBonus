@@ -1,7 +1,5 @@
 import uuid
 
-from pydantic import BaseModel
-
 from app.domain.store import StoreStatus
 from app.schema.base import BaseRequest, BaseResponse
 

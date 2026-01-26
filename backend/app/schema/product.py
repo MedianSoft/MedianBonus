@@ -1,7 +1,5 @@
 import uuid
 
-from pydantic import BaseModel
-
 from app.domain.product import ProductStatus
 from app.domain.product.enum import Category
 from app.schema.base import BaseRequest, BaseResponse

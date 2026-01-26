@@ -7,7 +7,7 @@ class HTTPError(Exception):
     status_code: int = status.HTTP_400_BAD_REQUEST
     detail: str = "HTTP error"
 
-    def __init__(self, detail: str | None = None):
+    def __init__(self, detail: str | None = None) -> None:
         if detail is not None:
             self.detail = detail
 
@@ -15,42 +15,42 @@ class HTTPError(Exception):
 class UnauthorizedError(HTTPError):
     status_code = status.HTTP_401_UNAUTHORIZED
 
-    def __init__(self, email: str = "mail"):
+    def __init__(self, email: str = "mail") -> None:
         self.detail = f"Incorrect password for email - {email}"
 
 
 class RefreshTokenRevokedError(HTTPError):
     status_code = status.HTTP_401_UNAUTHORIZED
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.detail = "Refresh token revoked"
 
 
 class RoleForbiddenError(HTTPError):
     status_code = status.HTTP_403_FORBIDDEN
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.detail = "insufficient access rights"
 
 
 class AlreadyExistsError(HTTPError):
     status_code = status.HTTP_409_CONFLICT
 
-    def __init__(self, name: str = "Entity"):
+    def __init__(self, name: str = "Entity") -> None:
         self.detail = f"{name} already exists"
 
 
 class NotFoundError(HTTPError):
     status_code = status.HTTP_404_NOT_FOUND
 
-    def __init__(self, name: str = "Entity"):
+    def __init__(self, name: str = "Entity") -> None:
         self.detail = f"{name} not found"
 
 
 class DeleteError(HTTPError):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
 
-    def __init__(self, name: str = "Entity"):
+    def __init__(self, name: str = "Entity") -> None:
         self.detail = f"{name} still exists"
 
 

@@ -6,23 +6,22 @@ from dotenv import load_dotenv
 from sqlalchemy import pool
 
 from app.domain.base import Base
-# noinspection PyUnresolvedReferences
-from app.domain.bonus import Bonus, BonusType
-# noinspection PyUnresolvedReferences
-from app.domain.business import Business, BusinessStatus
-# noinspection PyUnresolvedReferences
-from app.domain.customer import Customer, CustomerStatus
-# noinspection PyUnresolvedReferences
-from app.domain.customer_bonus import CustomerBonus
-# noinspection PyUnresolvedReferences
-from app.domain.employee import Employee, EmployeeStatus
-# noinspection PyUnresolvedReferences
-from app.domain.order import Order, OrderProduct, OrderStatus
-# noinspection PyUnresolvedReferences
-from app.domain.product import Product, ProductStatus
-# noinspection PyUnresolvedReferences
-from app.domain.store import Store, StoreStatus
 
+# noinspection PyUnresolvedReferences
+
+# noinspection PyUnresolvedReferences
+
+# noinspection PyUnresolvedReferences
+
+# noinspection PyUnresolvedReferences
+
+# noinspection PyUnresolvedReferences
+
+# noinspection PyUnresolvedReferences
+
+# noinspection PyUnresolvedReferences
+
+# noinspection PyUnresolvedReferences
 
 config = context.config
 fileConfig(config.config_file_name)
@@ -37,7 +36,7 @@ DB_HOST = "localhost"
 DB_PORT = os.getenv("DB_PORT_EXTERNAL")
 DB_NAME = os.getenv("DB_NAME")
 DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-print(f">>> {DATABASE_URL}")
+
 config.set_main_option("sqlalchemy.url", DATABASE_URL)
 
 
@@ -79,6 +78,5 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     import asyncio
-
 
     asyncio.run(run_migrations_online())

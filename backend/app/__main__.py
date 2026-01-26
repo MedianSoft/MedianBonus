@@ -15,7 +15,6 @@ from app.api import (
 from app.setting import app_settings
 from app.util.exception_handler import register_exception_handlers
 
-
 app = FastAPI(title="MedianBonus")
 
 app.add_middleware(

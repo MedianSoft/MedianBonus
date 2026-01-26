@@ -99,9 +99,6 @@ def get_order_service(
 @lru_cache
 def get_auth_service(
     business_repository: "BusinessRepository" = Depends(get_business_repository),
-    employee_repository: "EmployeeRepository" = Depends(get_employee_repository)
+    employee_repository: "EmployeeRepository" = Depends(get_employee_repository),
 ) -> AuthService:
-    return AuthService(
-        business_repository=business_repository,
-        employee_repository=employee_repository
-    )
+    return AuthService(business_repository=business_repository, employee_repository=employee_repository)

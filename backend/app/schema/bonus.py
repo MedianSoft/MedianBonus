@@ -1,7 +1,5 @@
 import uuid
 
-from pydantic import BaseModel
-
 from app.domain.bonus import BonusType
 from app.schema.base import BaseRequest, BaseResponse
 

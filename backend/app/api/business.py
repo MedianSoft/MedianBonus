@@ -72,7 +72,8 @@ async def get(
     response_model=BusinessListResponse,
 )
 async def get_all(
-    service: BusinessService = Depends(get_business_service), _cred: JwtAuthorizationCredentials = Depends(require_roles("business"))
+    service: BusinessService = Depends(get_business_service),
+    _cred: JwtAuthorizationCredentials = Depends(require_roles("business")),
 ) -> BusinessListResponse:
     return await service.get_all()
 

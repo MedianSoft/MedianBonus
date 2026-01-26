@@ -1,7 +1,8 @@
 import os
 from datetime import timedelta
 
-from fastapi_jwt import JwtAccessBearer, JwtRefreshBearer, JwtAuthorizationCredentials
+from fastapi_jwt import JwtAccessBearer, JwtAuthorizationCredentials, JwtRefreshBearer
+from fastapi_jwt.jwt import JwtAuthBase
 from passlib.context import CryptContext
 
 from app.util.exception_handler import RefreshTokenRevokedError
@@ -25,20 +26,26 @@ def hash_password(password: str) -> str:
 def verify_password(password: str, password_hash: str) -> bool:
     return pwd_context.verify(password, password_hash)
 
-access_security = JwtAccessBearer(
-    secret_key=JWT_SECRET,
-    auto_error=True,
-    access_expires_delta=ACCESS_TTL,
-)
-refresh_security = JwtRefreshBearer.from_other(
-    access_security,
-    auto_error=True,
-    refresh_expires_delta=REFRESH_TTL,
-)
+
+def access_security() -> JwtAccessBearer:
+    return JwtAccessBearer(
+        secret_key=JWT_SECRET,
+        auto_error=True,
+        access_expires_delta=ACCESS_TTL,
+    )
+
+
+def refresh_security() -> JwtAuthBase:
+    return JwtRefreshBearer.from_other(
+        access_security(),
+        auto_error=True,
+        refresh_expires_delta=REFRESH_TTL,
+    )
+
+
 revoked_refresh_jti: set[str] = set()
 
 
 def ensure_refresh_not_revoked(credentials: JwtAuthorizationCredentials) -> None:
     if credentials.jti in revoked_refresh_jti:
         raise RefreshTokenRevokedError()
-

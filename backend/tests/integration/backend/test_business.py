@@ -3,10 +3,10 @@ from httpx import AsyncClient
 
 
 @pytest.mark.asyncio
-async def test_create_success(client: AsyncClient):
+async def test_create_success(client: AsyncClient) -> None:
     payload = {
-        "name":     "Test Business",
-        "email":    "test@example.com",
+        "name": "Test Business",
+        "email": "test@example.com",
         "password": "StrongPassword123",
     }
 

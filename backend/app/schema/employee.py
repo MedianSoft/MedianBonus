@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import BaseModel, EmailStr
+from pydantic import EmailStr
 
 from app.domain.employee import EmployeeStatus
 from app.schema.base import BaseRequest, BaseResponse

@@ -1,17 +1,17 @@
 import asyncio
 import os
-from collections.abc import AsyncGenerator
+from collections.abc import AsyncGenerator, Generator
+from typing import Any
 
 import pytest
 import pytest_asyncio
 from dotenv import load_dotenv
 from httpx import ASGITransport, AsyncClient
-from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession, create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from app.__main__ import app
 from app.database.session import get_db
 from app.domain.base import AbstractBase
-
 
 load_dotenv()
 TEST_DB_DSN = os.getenv("TEST_DB_DSN", "sqlite:///:memory:")
@@ -30,21 +30,21 @@ async def init_db() -> AsyncGenerator[None]:
 
 
 @pytest_asyncio.fixture
-async def db_session() -> AsyncGenerator[AsyncSession, None]:
+async def db_session() -> AsyncGenerator[AsyncSession]:
     async with AsyncSessionLocal() as session:
         yield session
 
 
 @pytest.fixture(scope="session")
-def event_loop():
+def event_loop() -> Generator[asyncio.AbstractEventLoop, Any]:
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
 
 
 @pytest_asyncio.fixture
-async def client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
-    async def override_get_db():
+async def client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient]:
+    async def override_get_db() -> AsyncGenerator[AsyncSession, Any]:
         yield db_session
 
     app.dependency_overrides[get_db] = override_get_db
