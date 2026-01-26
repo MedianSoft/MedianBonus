@@ -1,12 +1,12 @@
 from sqlalchemy import Enum, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.domain.base import Entity
+from app.domain.base import Base
 
 from .enum import CustomerStatus
 
 
-class Customer(Entity):
+class Customer(Base):
     __tablename__ = "customers"
 
     name: Mapped[str] = mapped_column(String(63))

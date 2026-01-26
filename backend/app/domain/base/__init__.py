@@ -1,4 +1,5 @@
-from .entity import Base, Entity
+from .entity import AbstractBase, Base
 from .repository import BaseRepository
 
-__all__ = ["Base", "Entity", "BaseRepository"]
+
+__all__ = ["AbstractBase", "Base", "BaseRepository"]

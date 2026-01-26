@@ -3,12 +3,12 @@ import uuid
 from sqlalchemy import UUID, Enum, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.domain.base import Entity
+from app.domain.base import Base
 
 from .enum import OrderStatus
 
 
-class Order(Entity):
+class Order(Base):
     __tablename__ = "orders"
 
     store_id: Mapped[uuid.UUID] = mapped_column(
@@ -38,7 +38,7 @@ class Order(Entity):
     )
 
 
-class OrderProduct(Entity):
+class OrderProduct(Base):
     __tablename__ = "order_products"
 
     order_id: Mapped[uuid.UUID] = mapped_column(

@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from backend.schema.base import BaseRequest
+from app.schema.base import BaseRequest
 
 
 class AuthLoginRequest(BaseRequest):

@@ -3,12 +3,12 @@ import uuid
 from sqlalchemy import UUID, Enum, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.domain.base import Entity
+from app.domain.base import Base
 
 from .enum import EmployeeStatus
 
 
-class Employee(Entity):
+class Employee(Base):
     __tablename__ = "employeees"
 
     name: Mapped[str] = mapped_column(

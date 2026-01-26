@@ -3,10 +3,10 @@ import uuid
 from sqlalchemy import UUID, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.domain.base import Base
+from app.domain.base import AbstractBase
 
 
-class CustomerBonus(Base):
+class CustomerBonus(AbstractBase):
     __tablename__ = "customer_bonus"
 
     customer_id: Mapped[uuid.UUID] = mapped_column(

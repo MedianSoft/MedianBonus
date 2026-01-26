@@ -4,7 +4,7 @@ from datetime import timedelta
 from fastapi_jwt import JwtAccessBearer, JwtRefreshBearer, JwtAuthorizationCredentials
 from passlib.context import CryptContext
 
-from backend.util.exception_handler import RefreshTokenRevokedError
+from app.util.exception_handler import RefreshTokenRevokedError
 
 pwd_context = CryptContext(
     schemes=["argon2"],

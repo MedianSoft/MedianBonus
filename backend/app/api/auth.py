@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, status, Security
 from fastapi_jwt import JwtAuthorizationCredentials
 
-from backend.factoriy.service import get_auth_service
-from backend.schema.auth import AuthLoginRequest, TokenResponse
-from backend.security.password import refresh_security, ensure_refresh_not_revoked, revoked_refresh_jti, access_security
-from backend.service.auth import AuthService
+from app.factoriy.service import get_auth_service
+from app.schema.auth import AuthLoginRequest, TokenResponse
+from app.security.password import refresh_security, ensure_refresh_not_revoked, revoked_refresh_jti, access_security
+from app.service.auth import AuthService
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

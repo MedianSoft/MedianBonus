@@ -3,13 +3,13 @@ from typing import TYPE_CHECKING
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from . import Entity
+from . import Base
 
 if TYPE_CHECKING:
     import uuid
 
 
-class BaseRepository[ModelT: Entity]:
+class BaseRepository[ModelT: Base]:
     def __init__(self, session: AsyncSession):
         self.session = session
 

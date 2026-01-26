@@ -1,12 +1,9 @@
-from collections.abc import AsyncGenerator
-from contextlib import asynccontextmanager
-from typing import Any
-
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import (
+    auth_router,
     bonus_router,
     business_router,
     customer_router,
@@ -14,22 +11,12 @@ from app.api import (
     order_router,
     product_router,
     store_router,
-    auth_router,
 )
-from app.database.bootstrap import drop_database, init_database
 from app.setting import app_settings
 from app.util.exception_handler import register_exception_handlers
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncGenerator[None, Any]:  # noqa
-    await init_database()
-    yield
-    if app_settings.env == "dev":
-        await drop_database()  # for early dev purposes only
-
-
-app = FastAPI(lifespan=lifespan, title="MedianBonus")
+app = FastAPI(title="MedianBonus")
 
 app.add_middleware(
     CORSMiddleware,

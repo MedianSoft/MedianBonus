@@ -1,10 +1,10 @@
 
 
-from backend.domain.business import BusinessRepository, Business
-from backend.domain.employee import EmployeeRepository, Employee
-from backend.schema.auth import AuthLoginRequest, TokenResponse
-from backend.security.password import pwd_context, access_security, refresh_security
-from backend.util.exception_handler import UnauthorizedError
+from app.domain.business import BusinessRepository, Business
+from app.domain.employee import EmployeeRepository, Employee
+from app.schema.auth import AuthLoginRequest, TokenResponse
+from app.security.password import pwd_context, access_security, refresh_security
+from app.util.exception_handler import UnauthorizedError
 
 class AuthService:
     def __init__(self, business_repository: "BusinessRepository", employee_repository: "EmployeeRepository"):

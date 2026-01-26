@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession, create_asyn
 
 from app.__main__ import app
 from app.database.session import get_db
-from app.domain.base import Base
+from app.domain.base import AbstractBase
 
 
 load_dotenv()
@@ -23,7 +23,7 @@ AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False, class_=As
 @pytest_asyncio.fixture(scope="session", autouse=True)
 async def init_db() -> AsyncGenerator[None]:
     async with engine.connect() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+        await conn.run_sync(AbstractBase.metadata.create_all)
         await conn.commit()
     yield
     await engine.dispose()

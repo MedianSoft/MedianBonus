@@ -3,8 +3,8 @@ import uuid
 from fastapi import APIRouter, Depends, status
 from fastapi_jwt import JwtAuthorizationCredentials
 
-from backend.factoriy.service import get_business_service
-from backend.schema.business import (
+from app.factoriy.service import get_business_service
+from app.schema.business import (
     BusinessCreateRequest,
     BusinessDeleteRequest,
     BusinessGetByEmailRequest,
@@ -12,8 +12,8 @@ from backend.schema.business import (
     BusinessResponse,
     BusinessUpdateRequest,
 )
-from backend.service.business import BusinessService
-from backend.util.role_checker import require_roles
+from app.service.business import BusinessService
+from app.util.role_checker import require_roles
 
 router = APIRouter(prefix="/business", tags=["business"])
 

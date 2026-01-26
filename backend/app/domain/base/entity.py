@@ -1,15 +1,15 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import UUID, DateTime, func
+from sqlalchemy import DateTime, func, UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
-class Base(DeclarativeBase):
+class AbstractBase(DeclarativeBase):
     __abstract__ = True
 
 
-class Entity(Base):
+class Base(AbstractBase):
     __abstract__ = True
 
     id: Mapped[uuid.UUID] = mapped_column(

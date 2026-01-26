@@ -1,8 +1,8 @@
 from fastapi import Security
 from fastapi_jwt import JwtAuthorizationCredentials
 
-from backend.api.auth import access_security
-from backend.util.exception_handler import RoleForbiddenError
+from app.api.auth import access_security
+from app.util.exception_handler import RoleForbiddenError
 
 
 def require_roles(*required: str):
