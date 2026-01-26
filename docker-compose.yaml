@@ -1,5 +1,6 @@
 services:
   database:
+    profiles: [ "deploy" ]
     image: postgres:16
     container_name: database
     restart: unless-stopped
@@ -13,7 +14,10 @@ services:
       - "${DB_PORT_EXTERNAL}:${DB_PORT}"
 
   backend:
-    build: .
+    profiles: [ "deploy" ]
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: backend
     env_file:
       - .env
@@ -24,7 +28,20 @@ services:
     ports:
       - "${BE_PORT_EXTERNAL}:${BE_PORT}"
 
+  backend_test:
+    profiles: [ "test" ]
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.test
+    container_name: backend-test
+    env_file:
+      - .env
+    volumes:
+      - .:/backend_test
+
+
   frontend:
+    profiles: [ "deploy" ]
     build: ./frontend
     container_name: frontend
     restart: unless-stopped
@@ -49,6 +66,7 @@ services:
 
 
   pgadmin:
+    profiles: [ "deploy" ]
     image: dpage/pgadmin4:7
     container_name: pgadmin
     restart: always
