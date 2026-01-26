@@ -28,3 +28,11 @@ median-bonus/
 │
 ├── docker-compose.yml      # Оркестрация контейнеров
 └── pyproject.toml          # Зависимости и конфиг
+```
+
+## Первый запуск сервиса:
+
+1. ```cp .env.example .env```
+2. ```docker compose up```
+3. ```cd backend```
+4. ```alembic upgrade head```
