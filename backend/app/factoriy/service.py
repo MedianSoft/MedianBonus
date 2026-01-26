@@ -3,9 +3,9 @@ from typing import TYPE_CHECKING
 
 from fastapi import Depends
 
-from app.domain.customer_bonus import CustomerBonusRepository
-from app.domain.order import OrderProductRepository
-from app.factoriy.repository import (
+from backend.domain.customer_bonus import CustomerBonusRepository
+from backend.domain.order import OrderProductRepository
+from backend.factoriy.repository import (
     get_bonus_repository,
     get_business_repository,
     get_customer_bonus_repository,
@@ -16,22 +16,23 @@ from app.factoriy.repository import (
     get_product_repository,
     get_store_repository,
 )
-from app.service.bonus import BonusService
-from app.service.business import BusinessService
-from app.service.customer import CustomerService
-from app.service.employee import EmployeeService
-from app.service.order import OrderService
-from app.service.product import ProductService
-from app.service.store import StoreService
+from backend.service.auth import AuthService
+from backend.service.bonus import BonusService
+from backend.service.business import BusinessService
+from backend.service.customer import CustomerService
+from backend.service.employee import EmployeeService
+from backend.service.order import OrderService
+from backend.service.product import ProductService
+from backend.service.store import StoreService
 
 if TYPE_CHECKING:
-    from app.domain.bonus import BonusRepository
-    from app.domain.business import BusinessRepository
-    from app.domain.customer import CustomerRepository
-    from app.domain.employee import EmployeeRepository
-    from app.domain.order import OrderRepository
-    from app.domain.product import ProductRepository
-    from app.domain.store import StoreRepository
+    from backend.domain.bonus import BonusRepository
+    from backend.domain.business import BusinessRepository
+    from backend.domain.customer import CustomerRepository
+    from backend.domain.employee import EmployeeRepository
+    from backend.domain.order import OrderRepository
+    from backend.domain.product import ProductRepository
+    from backend.domain.store import StoreRepository
 
 
 @lru_cache
@@ -92,4 +93,15 @@ def get_order_service(
         bonus_repository=bonus_repository,
         customer_bonus_repository=customer_bonus_repository,
         customer_repository=customer_repository,
+    )
+
+
+@lru_cache
+def get_auth_service(
+    business_repository: "BusinessRepository" = Depends(get_business_repository),
+    employee_repository: "EmployeeRepository" = Depends(get_employee_repository)
+) -> AuthService:
+    return AuthService(
+        business_repository=business_repository,
+        employee_repository=employee_repository
     )
