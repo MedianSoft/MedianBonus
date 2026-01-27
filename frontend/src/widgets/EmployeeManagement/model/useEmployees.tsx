@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import type { Employee } from '@/shared/types/employee';
 import { employeeApi } from '@/shared/api/employee';
 
-export function useEmployees() {
+export function useEmployees(notify: any) {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,17 +22,30 @@ export function useEmployees() {
   const handleSave = async (formData: any) => {
     setIsLoading(true);
     try {
+      let response;
       if (currentEmployee?.id) {
-        // Редактирование
-        await employeeApi.update({ ...formData, id: currentEmployee.id });
+        response = await employeeApi.update({ ...formData, id: currentEmployee.id });
       } else {
-        // Создание
-        await employeeApi.create({ ...formData, business_id: currentBusinessId });
+        response = await employeeApi.create({ ...formData, business_id: currentBusinessId });
       }
-      await loadEmployees();
-      closeModal();
+
+      // В fetch нужно проверять response.ok (статус 200-299)
+      if (response.ok) {
+        await loadEmployees();
+        closeModal();
+        // ВЫЗОВ УВЕДОМЛЕНИЯ
+        notify.showSuccess(
+          currentEmployee?.id
+            ? "Данные сотрудника успешно обновлены"
+            : "Новый сотрудник успешно зарегистрирован"
+        );
+      } else {
+        // Если бэк прислал ошибку (например 422)
+        notify.showError("Не удалось сохранить данные. Проверьте правильность заполнения полей.");
+      }
     } catch (e) {
-      alert("Ошибка при сохранении данных");
+      notify.showError("Ошибка соединения с сервером. Попробуйте позже.");
+      console.error(e);
     } finally {
       setIsLoading(false);
     }
@@ -58,10 +71,16 @@ export function useEmployees() {
   const removeEmployee = async (id: string) => {
     if (!confirm('Вы уверены?')) return;
     try {
-      await employeeApi.delete(id);
-      setEmployees(prev => prev.filter(emp => emp.id !== id));
+      const response = await employeeApi.delete(id);
+
+      if (response.ok) {
+        setEmployees(prev => prev.filter(emp => emp.id !== id));
+        notify.showSuccess("Сотрудник удален из системы");
+      } else {
+        notify.showError("Не удалось удалить сотрудника");
+      }
     } catch (e) {
-      alert("Ошибка при удалении");
+      notify.showError("Ошибка при выполнении запроса");
     }
   };
 
@@ -73,7 +92,7 @@ export function useEmployees() {
     isLoading,
     currentEmployee,
     setIsModalOpen,
-    openCreateModal, // Добавил обратно
+    openCreateModal,
     openEditModal,
     closeModal,
     handleSave,

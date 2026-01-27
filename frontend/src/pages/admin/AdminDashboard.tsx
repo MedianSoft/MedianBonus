@@ -4,14 +4,17 @@ import { EmployeeManagement } from '@/widgets/EmployeeManagement/ui/EmployeeMana
 import { useEmployees } from '@/widgets/EmployeeManagement/model/useEmployees';
 import { CustomerManagement } from '@/widgets/CustomerManagement/ui/CustomerManagement';
 import { useCustomers } from '@/widgets/CustomerManagement/model/useCustomers';
+import { useNotification } from '@/shared/lib/hooks/useNotification';
+import { NotificationModal } from '@/shared/ui/NotificationModal/NotificationModal';
 import { StatsCard } from '@/shared/ui/StatsCard/StatsCard';
 import type { UserRole } from '@/shared/types/user';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('stats');
   const [role] = useState<UserRole>('admin');
-  const employeeController = useEmployees();
-  const customerController = useCustomers();
+  const notify = useNotification();
+  const employeeController = useEmployees(notify);
+  const customerController = useCustomers(notify);
 
   // Логика быстрого создания
   const handleQuickCreate = (tabId: string) => {
@@ -57,6 +60,10 @@ export default function AdminDashboard() {
           />
         </div>
       )}
+      <NotificationModal
+        state={notify.notification}
+        onClose={notify.closeNotification}
+      />
     </AdminLayout>
   );
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { customerApi } from '@/shared/api/customer';
 import type { Customer } from '@/shared/types/customer';
 
-export function useCustomers() {
+export function useCustomers(notify: any) {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +26,7 @@ export function useCustomers() {
       // Если нашли — можно либо выделить его в списке, либо открыть модалку на редактирование
       openEditModal(customer);
     } catch (e) {
-      alert("Клиент с таким номером не зарегистрирован");
+      notify.showError("Клиент с таким номером не зарегистрирован");
     } finally {
       setSearchLoading(false);
     }
@@ -48,7 +48,7 @@ export function useCustomers() {
       // Например, сразу открываем модалку с полученными данными
       openEditModal(customer);
     } catch (e) {
-      alert("Не удалось загрузить данные клиента");
+       notify.showError("Не удалось загрузить данные клиента");
     } finally {
       setIsLoading(false);
     }
@@ -57,18 +57,31 @@ export function useCustomers() {
   const handleSave = async (formData: any) => {
     setIsLoading(true);
     try {
+      let response;
       if (currentCustomer?.id) {
-        // PATCH если редактируем
-        await customerApi.update({ ...formData, id: currentCustomer.id });
+        response = await customerApi.update({ ...formData, id: currentCustomer.id });
       } else {
-        // POST если создаем
-        await customerApi.create(formData);
+        response = await customerApi.create(formData);
       }
-      await loadCustomers();
-      setIsModalOpen(false);
-      setCurrentCustomer(null);
+
+      // 4. Проверяем response.ok (если ваш API возвращает стандартный fetch response)
+      // Если API возвращает сразу данные, используйте просто try/catch
+      if (response && (response.ok || response.id)) {
+        await loadCustomers();
+        closeModal();
+        // 5. Вызов уведомления об успехе
+        notify.showSuccess(
+          currentCustomer?.id
+            ? "Данные клиента успешно обновлены"
+            : "Новый клиент успешно зарегистрирован"
+        );
+      } else {
+        notify.showError("Не удалось сохранить данные. Проверьте поля формы.");
+      }
     } catch (e) {
-      alert("Ошибка при сохранении");
+      // 6. Уведомление при ошибке сети/сервера
+      notify.showError("Ошибка сохранения. Попробуйте позже.");
+      console.error(e);
     } finally {
       setIsLoading(false);
     }
