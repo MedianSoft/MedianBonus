@@ -1,27 +1,17 @@
-import os
 from logging.config import fileConfig
 
 from alembic import context
-from dotenv import load_dotenv
 from sqlalchemy import pool
 
 from app.domain.base import Base
+from app.setting.database import database_settings
 
 config = context.config
 fileConfig(config.config_file_name)
 
 target_metadata = Base.metadata
 
-load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
-
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
-DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
-config.set_main_option("sqlalchemy.url", DATABASE_URL)
+config.set_main_option("sqlalchemy.url", database_settings.dsn)
 
 
 def run_migrations_offline():
