@@ -23,8 +23,6 @@ services:
       - .env
     depends_on:
       - database
-    volumes:
-      - .:/backend
     ports:
       - "${BE_PORT_EXTERNAL}:${BE_PORT}"
 
@@ -36,8 +34,6 @@ services:
     container_name: backend-test
     env_file:
       - .env
-    volumes:
-      - .:/backend_test
 
 
   frontend:
