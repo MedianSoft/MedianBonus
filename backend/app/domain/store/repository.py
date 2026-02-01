@@ -6,7 +6,6 @@ from app.domain.base import Status
 from app.domain.base.repository import BaseRepository
 from app.domain.store import Store
 
-
 if TYPE_CHECKING:
     import uuid
 

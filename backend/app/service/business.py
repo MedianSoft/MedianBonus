@@ -9,7 +9,6 @@ from app.schema.business import (
 from app.security import hash_password
 from app.util.exception_handler import AlreadyExistsError, NotFoundError
 
-
 if TYPE_CHECKING:
     import uuid
 

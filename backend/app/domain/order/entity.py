@@ -1,11 +1,9 @@
 import uuid
 
-from sqlalchemy import UUID, Enum, ForeignKey
+from sqlalchemy import UUID, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.domain.base import Base
-
-from .enum import OrderStatus
 
 
 class Order(Base):
@@ -30,12 +28,6 @@ class Order(Base):
     points_spend: Mapped[int] = mapped_column(nullable=False, default=0)
 
     points_earned: Mapped[int] = mapped_column(nullable=False, default=0)
-
-    status: Mapped[OrderStatus] = mapped_column(
-        Enum(OrderStatus, name="order_status"),
-        nullable=False,
-        default=OrderStatus.PAID,
-    )
 
 
 class OrderProduct(Base):

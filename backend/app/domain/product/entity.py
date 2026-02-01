@@ -1,9 +1,10 @@
 import uuid
 
-from sqlalchemy import ForeignKey, String, UUID
+from sqlalchemy import UUID, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.domain.base import Base
+
 from .enum import Category
 
 

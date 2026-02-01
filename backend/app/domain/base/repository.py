@@ -6,7 +6,6 @@ from sqlalchemy.sql.operators import and_
 
 from . import Base, Status
 
-
 if TYPE_CHECKING:
     import uuid
 

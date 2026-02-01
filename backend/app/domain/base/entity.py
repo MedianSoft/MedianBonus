@@ -1,9 +1,11 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Enum, UUID, DateTime, func
+from sqlalchemy import UUID, DateTime, Enum, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+
 from .enum import Status
+
 
 class AbstractBase(DeclarativeBase):
     __abstract__ = True

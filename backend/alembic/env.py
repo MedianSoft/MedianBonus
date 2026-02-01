@@ -1,27 +1,35 @@
+# ruff: noqa: F401
 from logging.config import fileConfig
 
 from alembic import context
 from sqlalchemy import pool
 
 from app.domain.base import Base
+
 # noinspection PyUnresolvedReferences
 from app.domain.bonus import Bonus, BonusType
+
 # noinspection PyUnresolvedReferences
 from app.domain.business import Business
+
 # noinspection PyUnresolvedReferences
 from app.domain.customer import Customer
+
 # noinspection PyUnresolvedReferences
 from app.domain.customer_bonus import CustomerBonus
+
 # noinspection PyUnresolvedReferences
 from app.domain.employee import Employee
+
 # noinspection PyUnresolvedReferences
-from app.domain.order import Order, OrderProduct, OrderStatus
+from app.domain.order import Order, OrderProduct
+
 # noinspection PyUnresolvedReferences
 from app.domain.product import Product
+
 # noinspection PyUnresolvedReferences
 from app.domain.store import Store
 from app.setting.database import database_settings
-
 
 config = context.config
 fileConfig(config.config_file_name)
@@ -69,6 +77,5 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     import asyncio
-
 
     asyncio.run(run_migrations_online())

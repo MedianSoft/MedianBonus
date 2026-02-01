@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy import and_, select
 
+from app.domain.base import Status
 from app.domain.base.repository import BaseRepository
 from app.domain.business import Business
 

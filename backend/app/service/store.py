@@ -8,7 +8,6 @@ from app.schema.store import (
 )
 from app.util.exception_handler import AlreadyExistsError, NotFoundError
 
-
 if TYPE_CHECKING:
     import uuid
 

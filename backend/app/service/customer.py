@@ -8,7 +8,6 @@ from app.schema.customer import (
 )
 from app.util.exception_handler import NotFoundError
 
-
 if TYPE_CHECKING:
     import uuid
 
