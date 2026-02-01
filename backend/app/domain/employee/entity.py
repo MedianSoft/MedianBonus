@@ -1,11 +1,9 @@
 import uuid
 
-from sqlalchemy import UUID, Enum, ForeignKey, String
+from sqlalchemy import ForeignKey, String, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.domain.base import Base
-
-from .enum import EmployeeStatus
 
 
 class Employee(Base):
@@ -30,10 +28,4 @@ class Employee(Base):
         UUID(as_uuid=True),
         ForeignKey("businesses.id"),
         nullable=False,
-    )
-
-    status: Mapped[EmployeeStatus] = mapped_column(
-        Enum(EmployeeStatus, name="employee_status"),
-        nullable=False,
-        default=EmployeeStatus.ACTIVATED,
     )

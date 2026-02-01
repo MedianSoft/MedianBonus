@@ -2,8 +2,9 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy import and_, select
 
+from app.domain.base import Status
 from app.domain.base.repository import BaseRepository
-from app.domain.employee import Employee, EmployeeStatus
+from app.domain.employee import Employee
 
 if TYPE_CHECKING:
     pass
@@ -15,7 +16,7 @@ class EmployeeRepository(BaseRepository[Employee]):
             select(Employee).where(
                 and_(
                     Employee.email == email,
-                    Employee.status != EmployeeStatus.SUSPENDED,
+                    Employee.status != Status.SUSPENDED,
                 )
             )
         )

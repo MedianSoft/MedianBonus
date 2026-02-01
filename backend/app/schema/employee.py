@@ -2,7 +2,7 @@ import uuid
 
 from pydantic import EmailStr
 
-from app.domain.employee import EmployeeStatus
+from app.domain.base import Status
 from app.schema.base import BaseRequest, BaseResponse
 
 
@@ -32,7 +32,7 @@ class EmployeeResponse(BaseResponse):
     id: uuid.UUID
     email: EmailStr
     name: str
-    status: EmployeeStatus
+    status: Status
 
 
 class EmployeeListResponse(BaseResponse):

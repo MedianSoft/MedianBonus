@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
 
-from app.domain.store import Store, StoreStatus
+from app.domain.base import Status
+from app.domain.store import Store
 from app.schema.store import (
     StoreListResponse,
     StoreResponse,
 )
 from app.util.exception_handler import AlreadyExistsError, NotFoundError
+
 
 if TYPE_CHECKING:
     import uuid
@@ -51,7 +53,7 @@ class StoreService:
         if not existing:
             raise NotFoundError("Store")
 
-        existing.status = StoreStatus.SUSPENDED
+        existing.status = Status.SUSPENDED
         _ = await self.repository.update(existing)
 
     async def get(self, id: "uuid.UUID") -> StoreResponse:  # noqa

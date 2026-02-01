@@ -1,11 +1,9 @@
 import uuid
 
-from sqlalchemy import UUID, Enum, ForeignKey, String
+from sqlalchemy import ForeignKey, String, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.domain.base import Base
-
-from .enum import StoreStatus
 
 
 class Store(Base):
@@ -20,10 +18,4 @@ class Store(Base):
     name: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
-    )
-
-    status: Mapped[StoreStatus] = mapped_column(
-        Enum(StoreStatus, name="store_status"),
-        nullable=False,
-        default=StoreStatus.ACTIVATED,
     )

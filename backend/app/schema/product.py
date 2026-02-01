@@ -1,6 +1,6 @@
 import uuid
 
-from app.domain.product import ProductStatus
+from app.domain.base import Status
 from app.domain.product.enum import Category
 from app.schema.base import BaseRequest, BaseResponse
 
@@ -36,7 +36,7 @@ class ProductResponse(BaseResponse):
     id: uuid.UUID
     store_id: uuid.UUID
     name: str
-    status: ProductStatus
+    status: Status
     category: Category
     price: float
 

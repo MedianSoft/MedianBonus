@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
-from app.domain.product import Product, ProductStatus
+from app.domain.base import Status
+from app.domain.product import Product
 from app.schema.product import (
     ProductListResponse,
     ProductResponse,
@@ -60,7 +61,7 @@ class ProductService:
         if not existing:
             raise NotFoundError("Product")
 
-        existing.status = ProductStatus.REMOVED
+        existing.status = Status.SUSPENDED
         _ = await self.repository.update(existing)
 
     async def get(self, id: "uuid.UUID") -> ProductResponse:  # noqa

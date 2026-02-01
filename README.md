@@ -29,5 +29,9 @@ median-bonus/
 ## Первый запуск сервиса:
 1. ```cp .env.example .env```
 2. ```docker compose up```
+
 ## Установка линтеров:
-```lefthook install```
+1. ```lefthook install```
+
+## Генерация ревизии Alembic:
+1. ```docker exec -it backend alembic revision --autogenerate```

@@ -2,8 +2,10 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy import and_, select
 
+from app.domain.base import Status
 from app.domain.base.repository import BaseRepository
-from app.domain.product import Product, ProductStatus
+from app.domain.product import Product
+
 
 if TYPE_CHECKING:
     import uuid
@@ -16,7 +18,7 @@ class ProductRepository(BaseRepository[Product]):
                 and_(
                     Product.store_id == store_id,
                     Product.name == name,
-                    Product.status != ProductStatus.REMOVED,
+                    Product.status != Status.SUSPENDED,
                 )
             )
         )
@@ -27,7 +29,7 @@ class ProductRepository(BaseRepository[Product]):
             select(Product).where(
                 and_(
                     Product.store_id == store_id,
-                    Product.status != ProductStatus.REMOVED,
+                    Product.status != Status.SUSPENDED,
                 )
             )
         )

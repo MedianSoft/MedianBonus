@@ -1,12 +1,14 @@
 from typing import TYPE_CHECKING
 
-from app.domain.business import Business, BusinessStatus
+from app.domain.base import Status
+from app.domain.business import Business
 from app.schema.business import (
     BusinessListResponse,
     BusinessResponse,
 )
 from app.security import hash_password
 from app.util.exception_handler import AlreadyExistsError, NotFoundError
+
 
 if TYPE_CHECKING:
     import uuid
@@ -59,7 +61,7 @@ class BusinessService:
         if not existing:
             raise NotFoundError("Business")
 
-        existing.status = BusinessStatus.SUSPENDED
+        existing.status = Status.SUSPENDED
         _ = await self.repository.update(existing)
 
     async def get(self, id: "uuid.UUID") -> BusinessResponse:  # noqa

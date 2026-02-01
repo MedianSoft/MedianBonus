@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
-from app.domain.employee import Employee, EmployeeStatus
+from app.domain.base import Status
+from app.domain.employee import Employee
 from app.schema.employee import (
     EmployeeListResponse,
     EmployeeResponse,
@@ -60,7 +61,7 @@ class EmployeeService:
         if not existing:
             raise NotFoundError("Employee")
 
-        existing.status = EmployeeStatus.SUSPENDED
+        existing.status = Status.SUSPENDED
         _ = await self.repository.update(existing)
 
     async def get(self, id: "uuid.UUID") -> EmployeeResponse:  # noqa

@@ -1,6 +1,6 @@
 import enum
 
 
-class EmployeeStatus(enum.Enum):
+class Status(enum.Enum):
     ACTIVATED = "activated"
     SUSPENDED = "suspended"

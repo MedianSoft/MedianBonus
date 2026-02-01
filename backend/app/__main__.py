@@ -12,7 +12,7 @@ from app.api import (
     product_router,
     store_router,
 )
-from app.setting import app_settings
+from app.setting.app import app_settings
 from app.util.exception_handler import register_exception_handlers
 
 app = FastAPI(title="MedianBonus")

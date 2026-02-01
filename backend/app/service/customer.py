@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
 
-from app.domain.customer import Customer, CustomerStatus
+from app.domain.base import Status
+from app.domain.customer import Customer
 from app.schema.customer import (
     CustomerListResponse,
     CustomerResponse,
 )
 from app.util.exception_handler import NotFoundError
+
 
 if TYPE_CHECKING:
     import uuid
@@ -51,7 +53,7 @@ class CustomerService:
         if not existing:
             raise NotFoundError("Customer")
 
-        existing.status = CustomerStatus.SUSPENDED
+        existing.status = Status.SUSPENDED
         _ = await self.repository.update(existing)
 
     async def get(self, id: "uuid.UUID") -> CustomerResponse:  # noqa

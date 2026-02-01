@@ -1,6 +1,6 @@
 import uuid
 
-from app.domain.store import StoreStatus
+from app.domain.base import Status
 from app.schema.base import BaseRequest, BaseResponse
 
 
@@ -31,7 +31,7 @@ class StoreResponse(BaseResponse):
     id: uuid.UUID
     business_id: uuid.UUID
     name: str
-    status: StoreStatus
+    status: Status
 
 
 class StoreListResponse(BaseResponse):

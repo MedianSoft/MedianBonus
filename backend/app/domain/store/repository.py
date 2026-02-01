@@ -2,8 +2,10 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy import and_, select
 
+from app.domain.base import Status
 from app.domain.base.repository import BaseRepository
-from app.domain.store import Store, StoreStatus
+from app.domain.store import Store
+
 
 if TYPE_CHECKING:
     import uuid
@@ -16,7 +18,7 @@ class StoreRepository(BaseRepository[Store]):
                 and_(
                     Store.business_id == business_id,
                     Store.name == name,
-                    Store.status != StoreStatus.SUSPENDED,
+                    Store.status != Status.SUSPENDED,
                 )
             )
         )

@@ -1,8 +1,9 @@
 from collections.abc import AsyncGenerator
 
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession, create_async_engine
 
-from app.setting import database_settings
+from app.setting.database import database_settings
+
 
 engine = create_async_engine(
     database_settings.dsn,

@@ -1,11 +1,10 @@
 import uuid
 
-from sqlalchemy import UUID, Enum, ForeignKey, String
+from sqlalchemy import ForeignKey, String, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.domain.base import Base
-
-from .enum import Category, ProductStatus
+from .enum import Category
 
 
 class Product(Base):
@@ -22,9 +21,3 @@ class Product(Base):
     name: Mapped[str] = mapped_column(String(255), nullable=False)
 
     price: Mapped[float] = mapped_column(nullable=False)
-
-    status: Mapped[ProductStatus] = mapped_column(
-        Enum(ProductStatus, name="product_status"),
-        nullable=False,
-        default=ProductStatus.AVAILABLE,
-    )

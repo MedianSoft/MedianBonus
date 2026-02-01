@@ -19,6 +19,8 @@ services:
       context: .
       dockerfile: backend/Dockerfile
     container_name: backend
+    volumes:
+      - ./backend/alembic:/alembic
     env_file:
       - .env
     depends_on:
