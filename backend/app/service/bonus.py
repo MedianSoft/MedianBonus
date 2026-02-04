@@ -1,6 +1,7 @@
 import uuid
 from typing import TYPE_CHECKING
 
+from app.database.session import async_session_manager
 from app.domain.bonus import Bonus
 from app.schema.bonus import BonusGetAllByStore, BonusListResponse, BonusResponse
 from app.util.exception_handler import NotFoundError
@@ -21,47 +22,49 @@ class BonusService:
         self.repository = repository
 
     async def create(self, data: "BonusCreateRequest") -> BonusResponse:
-        bonus = Bonus(
-            type=data.type,
-            store_id=data.store_id,
-            product_id=data.product_id,
-            value=data.value,
-        )
-        result = await self.repository.create(bonus)
+        async with async_session_manager() as session:
+            bonus = Bonus(
+                type=data.type,
+                store_id=data.store_id,
+                product_id=data.product_id,
+                value=data.value,
+            )
+            session.add(bonus)
+            await session.flush()
+            result = self.repository.get_by_product(product_id=data.product_id, session=session)
 
-        return BonusResponse.model_validate(result)
+            return BonusResponse.model_validate(result)
 
     async def update(self, data: "BonusUpdateRequest") -> BonusResponse:
-        existing = await self.repository.get(Bonus, data.id)
-        if not existing:
-            raise NotFoundError("Store")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(model=Bonus, id=data.id, session=session)
+            if not existing:
+                raise NotFoundError("Store")
 
-        if data.value:
-            existing.value = data.value
-        if data.product_id:
-            existing.product_id = data.product_id
+            if data.value:
+                existing.value = data.value
+            if data.product_id:
+                existing.product_id = data.product_id
 
-        result = await self.repository.update(existing)
-
-        return BonusResponse.model_validate(result)
+            return BonusResponse.model_validate(existing)
 
     async def delete(self, data: "BonusDeleteRequest") -> None:
-        existing = await self.repository.get(Bonus, data.id)
-        if not existing:
-            raise NotFoundError("Bonus")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(model=Bonus, id=data.id, session=session)
+            if not existing:
+                raise NotFoundError("Bonus")
 
-        existing.is_active = False
-        _ = await self.repository.update(existing)
+            existing.is_active = False
 
     async def get(self, id: "uuid.UUID") -> BonusResponse:  # noqa
-        result = await self.repository.get(Bonus, id)
+        result = await self.repository.get(model=Bonus, id=id)
         if not result:
             raise NotFoundError("Bonus")
 
         return BonusResponse.model_validate(result)
 
     async def get_all(self) -> "BonusListResponse":
-        result = await self.repository.get_all(Bonus)
+        result = await self.repository.get_all(model=Bonus)
         if not result:
             raise NotFoundError("Bonuses")
 

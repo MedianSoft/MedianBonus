@@ -16,7 +16,6 @@ class OrderRequest(BaseRequest):
 
 
 class OrderResponse(BaseResponse):
-    id: uuid.UUID
     products: list[OrderProductRequest] | None = None
     price: float
     price_with_discount: float

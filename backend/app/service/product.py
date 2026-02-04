@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+from app.database.session import async_session_manager
 from app.domain.base import Status
 from app.domain.product import Product
 from app.schema.product import (
@@ -26,43 +27,47 @@ class ProductService:
         self.repository = repository
 
     async def create(self, data: "ProductCreateRequest") -> ProductResponse:
-        existing = await self.repository.get_by_name_in_store(name=data.name, store_id=data.store_id)
-        if existing:
-            raise AlreadyExistsError("Product")
+        async with async_session_manager() as session:
+            existing = await self.repository.get_by_name_in_store(
+                name=data.name, store_id=data.store_id, session=session
+            )
+            if existing:
+                raise AlreadyExistsError("Product")
 
-        product = Product(
-            name=data.name,
-            store_id=data.store_id,
-            category=data.category,
-            price=data.price,
-        )
-        result = await self.repository.create(product)
+            product = Product(
+                name=data.name,
+                store_id=data.store_id,
+                category=data.category,
+                price=data.price,
+            )
+            session.add(product)
+            await session.flush()
+            result = await self.repository.get_by_name_in_store(name=data.name, store_id=data.store_id, session=session)
 
-        return ProductResponse.model_validate(result)
+            return ProductResponse.model_validate(result)
 
     async def update(self, data: "ProductUpdateRequest") -> ProductResponse:
-        existing = await self.repository.get(Product, data.id)
-        if not existing:
-            raise NotFoundError("Product")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(Product, data.id, session)
+            if not existing:
+                raise NotFoundError("Product")
 
-        if data.name:
-            existing.name = data.name
-        if data.category:
-            existing.category = data.category
-        if data.price:
-            existing.price = data.price
+            if data.name:
+                existing.name = data.name
+            if data.category:
+                existing.category = data.category
+            if data.price:
+                existing.price = data.price
 
-        result = await self.repository.update(existing)
-
-        return ProductResponse.model_validate(result)
+            return ProductResponse.model_validate(existing)
 
     async def delete(self, data: "ProductDeleteRequest") -> None:
-        existing = await self.repository.get(Product, data.id)
-        if not existing:
-            raise NotFoundError("Product")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(Product, data.id, session)
+            if not existing:
+                raise NotFoundError("Product")
 
-        existing.status = Status.SUSPENDED
-        _ = await self.repository.update(existing)
+            existing.status = Status.SUSPENDED
 
     async def get(self, id: "uuid.UUID") -> ProductResponse:  # noqa
         result = await self.repository.get(Product, id)

@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+from app.database.session import async_session_manager
 from app.domain.base import Status
 from app.domain.business import Business
 from app.schema.business import (
@@ -26,59 +27,61 @@ class BusinessService:
         self.repository = repository
 
     async def create(self, data: "BusinessCreateRequest") -> BusinessResponse:
-        existing = await self.repository.get_by_email(str(data.email))
-        if existing:
-            raise AlreadyExistsError("Email")
+        async with async_session_manager() as session:
+            existing = await self.repository.get_by_email(email=str(data.email), session=session)
+            if existing:
+                raise AlreadyExistsError("Email")
 
-        business = Business(
-            name=data.name,
-            email=str(data.email),
-            password_hash=hash_password(data.password),
-        )
-        result = await self.repository.create(business)
+            business = Business(
+                name=data.name,
+                email=str(data.email),
+                password_hash=hash_password(data.password),
+            )
+            session.add(business)
+            await session.flush()
+            result = await self.repository.get_by_email(email=str(data.email), session=session)
 
-        return BusinessResponse.model_validate(result)
+            return BusinessResponse.model_validate(result)
 
     async def update(self, data: "BusinessUpdateRequest") -> BusinessResponse:
-        existing = await self.repository.get(Business, data.id)
-        if not existing:
-            raise NotFoundError("Business")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(model=Business, id=data.id, session=session)
+            if not existing:
+                raise NotFoundError("Business")
 
-        if data.name:
-            existing.name = data.name
-        if data.email:
-            existing.email = str(data.email)
-        if data.password:
-            existing.password_hash = hash_password(data.password)
+            if data.name:
+                existing.name = data.name
+            if data.email:
+                existing.email = str(data.email)
+            if data.password:
+                existing.password_hash = hash_password(data.password)
 
-        result = await self.repository.update(existing)
-
-        return BusinessResponse.model_validate(result)
+            return BusinessResponse.model_validate(existing)
 
     async def delete(self, data: "BusinessDeleteRequest") -> None:
-        existing = await self.repository.get(Business, data.id)
-        if not existing:
-            raise NotFoundError("Business")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(model=Business, id=data.id, session=session)
+            if not existing:
+                raise NotFoundError("Business")
 
-        existing.status = Status.SUSPENDED
-        _ = await self.repository.update(existing)
+            existing.status = Status.SUSPENDED
 
     async def get(self, id: "uuid.UUID") -> BusinessResponse:  # noqa
-        result = await self.repository.get(Business, id)
+        result = await self.repository.get(model=Business, id=id)
         if not result:
             raise NotFoundError("Business")
 
         return BusinessResponse.model_validate(result)
 
     async def get_all(self) -> BusinessListResponse:
-        result = await self.repository.get_all(Business)
+        result = await self.repository.get_all(model=Business)
         if not result:
             raise NotFoundError("Businesses")
 
         return BusinessListResponse(businesses=[BusinessResponse.model_validate(business) for business in result])
 
     async def get_by_email(self, data: "BusinessGetByEmailRequest") -> BusinessResponse:
-        result = await self.repository.get_by_email(str(data.email))
+        result = await self.repository.get_by_email(email=str(data.email))
         if not result:
             raise NotFoundError("Business")
 

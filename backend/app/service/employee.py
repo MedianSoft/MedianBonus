@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+from app.database.session import async_session_manager
 from app.domain.base import Status
 from app.domain.employee import Employee
 from app.schema.employee import (
@@ -26,43 +27,45 @@ class EmployeeService:
         self.repository = repository
 
     async def create(self, data: "EmployeeCreateRequest") -> EmployeeResponse:
-        existing = await self.repository.get_by_email(str(data.email))
-        if existing:
-            raise AlreadyExistsError("Email")
+        async with async_session_manager() as session:
+            existing = await self.repository.get_by_email(email=str(data.email), session=session)
+            if existing:
+                raise AlreadyExistsError("Email")
 
-        employee = Employee(
-            name=data.name,
-            email=str(data.email),
-            password_hash=hash_password(data.password),
-            business_id=data.business_id,
-        )
-        result = await self.repository.create(employee)
+            employee = Employee(
+                name=data.name,
+                email=str(data.email),
+                password_hash=hash_password(data.password),
+                business_id=data.business_id,
+            )
+            session.add(employee)
+            await session.flush()
+            result = await self.repository.get_by_email(email=str(data.email), session=session)
 
-        return EmployeeResponse.model_validate(result)
+            return EmployeeResponse.model_validate(result)
 
     async def update(self, data: "EmployeeUpdateRequest") -> EmployeeResponse:
-        existing = await self.repository.get(Employee, data.id)
-        if not existing:
-            raise NotFoundError("Employee")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(Employee, data.id, session)
+            if not existing:
+                raise NotFoundError("Employee")
 
-        if data.name:
-            existing.name = data.name
-        if data.email:
-            existing.email = str(data.email)
-        if data.password:
-            existing.password_hash = hash_password(data.password)
+            if data.name:
+                existing.name = data.name
+            if data.email:
+                existing.email = str(data.email)
+            if data.password:
+                existing.password_hash = hash_password(data.password)
 
-        result = await self.repository.update(existing)
-
-        return EmployeeResponse.model_validate(result)
+            return EmployeeResponse.model_validate(existing)
 
     async def delete(self, data: "EmployeeDeleteRequest") -> None:
-        existing = await self.repository.get(Employee, data.id)
-        if not existing:
-            raise NotFoundError("Employee")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(Employee, data.id, session)
+            if not existing:
+                raise NotFoundError("Employee")
 
-        existing.status = Status.SUSPENDED
-        _ = await self.repository.update(existing)
+            existing.status = Status.SUSPENDED
 
     async def get(self, id: "uuid.UUID") -> EmployeeResponse:  # noqa
         result = await self.repository.get(Employee, id)

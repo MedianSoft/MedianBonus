@@ -1,4 +1,19 @@
 services:
+  backend:
+    profiles: [ "deploy" ]
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: backend
+    volumes:
+      - ./backend/alembic:/alembic
+    depends_on:
+      - database
+    ports:
+      - "${BE_PORT_EXTERNAL}:${BE_PORT}"
+    env_file:
+      - .env
+
   database:
     profiles: [ "deploy" ]
     image: postgres:16
@@ -12,31 +27,6 @@ services:
       - db_data:/var/lib/postgresql/data
     ports:
       - "${DB_PORT_EXTERNAL}:${DB_PORT}"
-
-  backend:
-    profiles: [ "deploy" ]
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
-    container_name: backend
-    volumes:
-      - ./backend/alembic:/alembic
-    env_file:
-      - .env
-    depends_on:
-      - database
-    ports:
-      - "${BE_PORT_EXTERNAL}:${BE_PORT}"
-
-  backend_test:
-    profiles: [ "test" ]
-    build:
-      context: .
-      dockerfile: backend/Dockerfile.test
-    container_name: backend-test
-    env_file:
-      - .env
-
 
   frontend:
     profiles: [ "deploy" ]
@@ -73,6 +63,29 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PG_PASSWORD}
     ports:
       - "${PG_PORT}:80"
+
+#  backend_test:
+#    profiles: [ "test" ]
+#    build:
+#      context: .
+#      dockerfile: backend/Dockerfile.test
+#    container_name: backend_test
+#    env_file:
+#      - .env.test
+#    depends_on:
+#      - database_test
+#
+#  database_test:
+#    profiles: [ "test" ]
+#    image: postgres:16
+#    container_name: database_test
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_DB: ${DB_NAME}
+#      POSTGRES_USER: ${DB_USER}
+#      POSTGRES_PASSWORD: ${DB_PASSWORD}
+#    env_file:
+#      - .env.test
 
 volumes:
   db_data:

@@ -1,12 +1,15 @@
 FROM python:3.13-slim
 
-WORKDIR /app
+WORKDIR /
 
-COPY ../pyproject.toml uv.lock ./
+COPY ../pyproject.toml ./
 RUN pip install --upgrade pip
 RUN pip install uv
+RUN uv sync
 RUN uv pip install --system --no-cache -r pyproject.toml --group test
 
 COPY backend .
 
-CMD ["pytest", "--cov=app", "--cov-report=term-missing"]
+RUN chmod +x /entrypoint_test.sh
+
+ENTRYPOINT ["/entrypoint_test.sh"]

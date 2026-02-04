@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+from app.database.session import async_session_manager
 from app.domain.base import Status
 from app.domain.store import Store
 from app.schema.store import (
@@ -26,34 +27,40 @@ class StoreService:
         self.repository = repository
 
     async def create(self, data: "StoreCreateRequest") -> StoreResponse:
-        existing = await self.repository.get_by_name_in_business(name=data.name, business_id=data.business_id)
-        if existing:
-            raise AlreadyExistsError("Store")
+        async with async_session_manager() as session:
+            existing = await self.repository.get_by_name_in_business(
+                name=data.name, business_id=data.business_id, session=session
+            )
+            if existing:
+                raise AlreadyExistsError("Store")
 
-        store = Store(name=data.name, business_id=data.business_id)
-        result = await self.repository.create(store)
+            store = Store(name=data.name, business_id=data.business_id)
+            session.add(store)
+            await session.flush()
+            result = await self.repository.get_by_name_in_business(
+                name=data.name, business_id=data.business_id, session=session
+            )
 
-        return StoreResponse.model_validate(result)
+            return StoreResponse.model_validate(result)
 
     async def update(self, data: "StoreUpdateRequest") -> StoreResponse:
-        existing = await self.repository.get(Store, data.id)
-        if not existing:
-            raise NotFoundError("Store")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(Store, data.id, session)
+            if not existing:
+                raise NotFoundError("Store")
 
-        if data.name:
-            existing.name = data.name
+            if data.name:
+                existing.name = data.name
 
-        result = await self.repository.update(existing)
-
-        return StoreResponse.model_validate(result)
+            return StoreResponse.model_validate(existing)
 
     async def delete(self, data: "StoreDeleteRequest") -> None:
-        existing = await self.repository.get(Store, data.id)
-        if not existing:
-            raise NotFoundError("Store")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(Store, data.id, session)
+            if not existing:
+                raise NotFoundError("Store")
 
-        existing.status = Status.SUSPENDED
-        _ = await self.repository.update(existing)
+            existing.status = Status.SUSPENDED
 
     async def get(self, id: "uuid.UUID") -> StoreResponse:  # noqa
         result = await self.repository.get(Store, id)
