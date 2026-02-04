@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+from app.database.session import async_session_manager
 from app.domain.base import Status
 from app.domain.customer import Customer
 from app.schema.customer import (
@@ -25,35 +26,38 @@ class CustomerService:
         self.repository = repository
 
     async def create(self, data: "CustomerCreateRequest") -> CustomerResponse:
-        existing = await self.repository.get_by_phone(data.phone)
-        if existing:
-            return CustomerResponse.model_validate(existing)
+        async with async_session_manager() as session:
+            existing = await self.repository.get_by_phone(phone=data.phone, session=session)
+            if existing:
+                return CustomerResponse.model_validate(existing)
 
-        customer = Customer(name=data.name, phone=data.phone)
-        result = await self.repository.create(customer)
-        return CustomerResponse.model_validate(result)
+            customer = Customer(name=data.name, phone=data.phone)
+            session.add(customer)
+            await session.flush()
+            result = await self.repository.get_by_phone(phone=data.phone, session=session)
+
+            return CustomerResponse.model_validate(result)
 
     async def update(self, data: "CustomerUpdateRequest") -> CustomerResponse:
-        existing = await self.repository.get(Customer, data.id)
-        if not existing:
-            raise NotFoundError("Customer")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(model=Customer, id=data.id, session=session)
+            if not existing:
+                raise NotFoundError("Customer")
 
-        if data.phone:
-            existing.phone = data.phone
-        if data.name:
-            existing.name = data.name
+            if data.phone:
+                existing.phone = data.phone
+            if data.name:
+                existing.name = data.name
 
-        result = await self.repository.update(existing)
-
-        return CustomerResponse.model_validate(result)
+            return CustomerResponse.model_validate(existing)
 
     async def delete(self, data: "CustomerDeleteRequest") -> None:
-        existing = await self.repository.get(Customer, data.id)
-        if not existing:
-            raise NotFoundError("Customer")
+        async with async_session_manager() as session:
+            existing = await self.repository.get(Customer, data.id, session)
+            if not existing:
+                raise NotFoundError("Customer")
 
-        existing.status = Status.SUSPENDED
-        _ = await self.repository.update(existing)
+            existing.status = Status.SUSPENDED
 
     async def get(self, id: "uuid.UUID") -> CustomerResponse:  # noqa
         result = await self.repository.get(Customer, id)

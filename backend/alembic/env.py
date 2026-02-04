@@ -62,8 +62,14 @@ def do_run_migrations(connection):
 async def run_migrations_online():
     from sqlalchemy.ext.asyncio import create_async_engine
 
+    url = config.get_main_option("sqlalchemy.url")
+    if url.startswith("sqlite://"):
+        url = url.replace("sqlite://", "sqlite+aiosqlite://", 1)
+    if url.startswith("postgresql://"):
+        url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
+
     connectable = create_async_engine(
-        config.get_main_option("sqlalchemy.url").replace("postgresql://", "postgresql+asyncpg://"),
+        url,
         poolclass=pool.NullPool,
     )
 

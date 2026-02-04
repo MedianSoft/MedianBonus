@@ -15,18 +15,19 @@ class AuthService:
         self.employee_repository = employee_repository
 
     async def get_user_role_by_email(self, data: "AuthLoginRequest") -> tuple[Business | Employee | None, str | None]:
-        business = await self.business_repository.get_by_email(data.email)
+        user, role = None, None
+        business = await self.business_repository.get_by_email(email=data.email)
         if business and pwd_context.verify(data.password, business.password_hash):
-            return business, "business"
+            user, role = business, "business"
 
-        employee = await self.employee_repository.get_by_email(data.email)
+        employee = await self.employee_repository.get_by_email(email=data.email)
         if employee and pwd_context.verify(data.password, employee.password_hash):
-            return employee, "employee"
+            user, role = employee, "employee"
 
-        return None, None
+        return user, role
 
     async def get_jwt_token(self, data: "AuthLoginRequest") -> TokenResponse:
-        user, role = await self.get_user_role_by_email(data)
+        user, role = await self.get_user_role_by_email(data=data)
         if user is None:
             raise UnauthorizedError(email=data.email)
 
