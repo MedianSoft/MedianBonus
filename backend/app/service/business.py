@@ -1,6 +1,5 @@
 from typing import TYPE_CHECKING
 
-from app.database.session import async_session_manager
 from app.domain.base import Status
 from app.domain.business import Business
 from app.schema.business import (
@@ -27,44 +26,39 @@ class BusinessService:
         self.repository = repository
 
     async def create(self, data: "BusinessCreateRequest") -> BusinessResponse:
-        async with async_session_manager() as session:
-            existing = await self.repository.get_by_email(email=str(data.email), session=session)
-            if existing:
-                raise AlreadyExistsError("Email")
+        existing = await self.repository.get_by_email(email=str(data.email))
+        if existing:
+            raise AlreadyExistsError("Email")
 
-            business = Business(
-                name=data.name,
-                email=str(data.email),
-                password_hash=hash_password(data.password),
-            )
-            session.add(business)
-            await session.flush()
-            result = await self.repository.get_by_email(email=str(data.email), session=session)
-
-            return BusinessResponse.model_validate(result)
+        business = Business(
+            name=data.name,
+            email=str(data.email),
+            password_hash=hash_password(data.password),
+        )
+        result = await self.repository.create(business)
+        return BusinessResponse.model_validate(result)
 
     async def update(self, data: "BusinessUpdateRequest") -> BusinessResponse:
-        async with async_session_manager() as session:
-            existing = await self.repository.get(model=Business, id=data.id, session=session)
-            if not existing:
-                raise NotFoundError("Business")
+        existing = await self.repository.get(model=Business, id=data.id)
+        if not existing:
+            raise NotFoundError("Business")
 
-            if data.name:
-                existing.name = data.name
-            if data.email:
-                existing.email = str(data.email)
-            if data.password:
-                existing.password_hash = hash_password(data.password)
-
-            return BusinessResponse.model_validate(existing)
+        if data.name:
+            existing.name = data.name
+        if data.email:
+            existing.email = str(data.email)
+        if data.password:
+            existing.password_hash = hash_password(data.password)
+        result = await self.repository.update(existing)
+        return BusinessResponse.model_validate(result)
 
     async def delete(self, data: "BusinessDeleteRequest") -> None:
-        async with async_session_manager() as session:
-            existing = await self.repository.get(model=Business, id=data.id, session=session)
-            if not existing:
-                raise NotFoundError("Business")
+        existing = await self.repository.get(model=Business, id=data.id)
+        if not existing:
+            raise NotFoundError("Business")
 
-            existing.status = Status.SUSPENDED
+        existing.status = Status.SUSPENDED
+        _ = await self.repository.update(existing)
 
     async def get(self, id: "uuid.UUID") -> BusinessResponse:  # noqa
         result = await self.repository.get(model=Business, id=id)

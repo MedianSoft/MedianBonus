@@ -1,8 +1,9 @@
 import uuid
 
+from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends, status
 
-from app.factoriy.service import get_product_service
+from app.container.base import BaseContainer
 from app.schema.product import (
     ProductAllByStoreRequest,
     ProductCreateRequest,
@@ -22,9 +23,10 @@ router = APIRouter(prefix="/product", tags=["product"])
     status_code=status.HTTP_201_CREATED,
     response_model=ProductResponse,
 )
+@inject
 async def create(
     data: ProductCreateRequest,
-    service: ProductService = Depends(get_product_service),
+    service: ProductService = Depends(Provide[BaseContainer.product.service]),  # type: ignore
 ) -> ProductResponse:
     return await service.create(data)
 
@@ -34,9 +36,10 @@ async def create(
     status_code=status.HTTP_202_ACCEPTED,
     response_model=ProductResponse,
 )
+@inject
 async def update(
     data: ProductUpdateRequest,
-    service: ProductService = Depends(get_product_service),
+    service: ProductService = Depends(Provide[BaseContainer.product.service]),  # type: ignore
 ) -> ProductResponse | None:
     return await service.update(data)
 
@@ -45,9 +48,10 @@ async def update(
     "/delete",
     status_code=status.HTTP_204_NO_CONTENT,
 )
+@inject
 async def delete(
     data: ProductDeleteRequest,
-    service: ProductService = Depends(get_product_service),
+    service: ProductService = Depends(Provide[BaseContainer.product.service]),  # type: ignore
 ) -> None:
     await service.delete(data)
     return
@@ -58,9 +62,10 @@ async def delete(
     status_code=status.HTTP_200_OK,
     response_model=ProductResponse,
 )
+@inject
 async def get(
     id: uuid.UUID,  # noqa
-    service: ProductService = Depends(get_product_service),
+    service: ProductService = Depends(Provide[BaseContainer.product.service]),  # type: ignore
 ) -> ProductResponse | None:
     return await service.get(id)
 
@@ -70,8 +75,9 @@ async def get(
     status_code=status.HTTP_200_OK,
     response_model=ProductListResponse,
 )
+@inject
 async def get_all(
-    service: ProductService = Depends(get_product_service),
+    service: ProductService = Depends(Provide[BaseContainer.product.service]),  # type: ignore
 ) -> ProductListResponse:
     return await service.get_all()
 
@@ -81,9 +87,10 @@ async def get_all(
     status_code=status.HTTP_200_OK,
     response_model=ProductResponse,
 )
+@inject
 async def get_by_name_in_store(
     data: ProductGetByNameInStoreRequest,
-    service: ProductService = Depends(get_product_service),
+    service: ProductService = Depends(Provide[BaseContainer.product.service]),  # type: ignore
 ) -> ProductResponse | None:
     return await service.get_by_name_in_store(data)
 
@@ -93,8 +100,9 @@ async def get_by_name_in_store(
     status_code=status.HTTP_200_OK,
     response_model=ProductListResponse,
 )
+@inject
 async def get_all_by_store(
     data: ProductAllByStoreRequest,
-    service: ProductService = Depends(get_product_service),
+    service: ProductService = Depends(Provide[BaseContainer.product.service]),  # type: ignore
 ) -> ProductListResponse:
     return await service.get_all_by_store(data)

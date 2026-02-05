@@ -1,7 +1,8 @@
+from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends, Security, status
 from fastapi_jwt import JwtAuthorizationCredentials
 
-from app.factoriy.service import get_auth_service
+from app.container.base import BaseContainer
 from app.schema.auth import AuthLoginRequest, TokenResponse
 from app.security.password import (
     access_security,
@@ -21,9 +22,10 @@ router = APIRouter(prefix="/auth", tags=["auth"])
     status_code=status.HTTP_200_OK,
     response_model=TokenResponse,
 )
+@inject
 async def create(
     data: AuthLoginRequest,
-    service: AuthService = Depends(get_auth_service),
+    service: AuthService = Depends(Provide[BaseContainer.auth.service]),  # type: ignore
 ) -> TokenResponse:
     return await service.get_jwt_token(data)
 

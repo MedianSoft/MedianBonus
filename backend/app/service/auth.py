@@ -15,7 +15,8 @@ class AuthService:
         self.employee_repository = employee_repository
 
     async def get_user_role_by_email(self, data: "AuthLoginRequest") -> tuple[Business | Employee | None, str | None]:
-        user, role = None, None
+        user: Business | Employee | None = None
+        role: str | None = None
         business = await self.business_repository.get_by_email(email=data.email)
         if business and pwd_context.verify(data.password, business.password_hash):
             user, role = business, "business"

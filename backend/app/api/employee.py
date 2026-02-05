@@ -1,8 +1,9 @@
 import uuid
 
+from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends, status
 
-from app.factoriy.service import get_employee_service
+from app.container.base import BaseContainer
 from app.schema.employee import (
     EmployeeCreateRequest,
     EmployeeDeleteRequest,
@@ -21,9 +22,10 @@ router = APIRouter(prefix="/employee", tags=["employee"])
     status_code=status.HTTP_201_CREATED,
     response_model=EmployeeResponse,
 )
+@inject
 async def create(
     data: EmployeeCreateRequest,
-    service: EmployeeService = Depends(get_employee_service),
+    service: EmployeeService = Depends(Provide[BaseContainer.employee.service]),  # type: ignore
 ) -> EmployeeResponse:
     return await service.create(data)
 
@@ -33,9 +35,10 @@ async def create(
     status_code=status.HTTP_202_ACCEPTED,
     response_model=EmployeeResponse,
 )
+@inject
 async def update(
     data: EmployeeUpdateRequest,
-    service: EmployeeService = Depends(get_employee_service),
+    service: EmployeeService = Depends(Provide[BaseContainer.employee.service]),  # type: ignore
 ) -> EmployeeResponse | None:
     return await service.update(data)
 
@@ -44,9 +47,10 @@ async def update(
     "/delete",
     status_code=status.HTTP_204_NO_CONTENT,
 )
+@inject
 async def delete(
     data: EmployeeDeleteRequest,
-    service: EmployeeService = Depends(get_employee_service),
+    service: EmployeeService = Depends(Provide[BaseContainer.employee.service]),  # type: ignore
 ) -> None:
     await service.delete(data)
     return
@@ -57,9 +61,10 @@ async def delete(
     status_code=status.HTTP_200_OK,
     response_model=EmployeeResponse,
 )
+@inject
 async def get(
     id: uuid.UUID,  # noqa
-    service: EmployeeService = Depends(get_employee_service),
+    service: EmployeeService = Depends(Provide[BaseContainer.employee.service]),  # type: ignore
 ) -> EmployeeResponse | None:
     return await service.get(id)
 
@@ -69,8 +74,9 @@ async def get(
     status_code=status.HTTP_200_OK,
     response_model=EmployeeListResponse,
 )
+@inject
 async def get_all(
-    service: EmployeeService = Depends(get_employee_service),
+    service: EmployeeService = Depends(Provide[BaseContainer.employee.service]),  # type: ignore
 ) -> EmployeeListResponse:
     return await service.get_all()
 
@@ -80,8 +86,9 @@ async def get_all(
     status_code=status.HTTP_200_OK,
     response_model=EmployeeResponse,
 )
+@inject
 async def get_by_email(
     data: EmployeeGetByEmailRequest,
-    service: EmployeeService = Depends(get_employee_service),
+    service: EmployeeService = Depends(Provide[BaseContainer.employee.service]),  # type: ignore
 ) -> EmployeeResponse | None:
     return await service.get_by_email(data)

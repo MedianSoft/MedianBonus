@@ -12,6 +12,7 @@ from app.api import (
     product_router,
     store_router,
 )
+from app.container.base import BaseContainer
 from app.setting.app import app_settings
 from app.util.exception_handler import register_exception_handlers
 
@@ -39,6 +40,8 @@ routers = [
 ]
 for router in routers:
     app.include_router(router)
+
+app.container = BaseContainer()  # type: ignore
 
 if __name__ == "__main__":
     uvicorn.run(
