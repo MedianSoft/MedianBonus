@@ -1,47 +1,9 @@
 import uvicorn
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import (
-    auth_router,
-    bonus_router,
-    business_router,
-    customer_router,
-    employee_router,
-    order_router,
-    product_router,
-    store_router,
-)
-from app.container.base import BaseContainer
+from app.server import create_app
 from app.setting.app import app_settings
-from app.util.exception_handler import register_exception_handlers
 
-app = FastAPI(title="MedianBonus")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-register_exception_handlers(app)
-
-routers = [
-    auth_router,
-    bonus_router,
-    business_router,
-    customer_router,
-    employee_router,
-    order_router,
-    product_router,
-    store_router,
-]
-for router in routers:
-    app.include_router(router)
-
-app.container = BaseContainer()  # type: ignore
+app = create_app()
 
 if __name__ == "__main__":
     uvicorn.run(
